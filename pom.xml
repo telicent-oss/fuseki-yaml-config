@@ -101,7 +101,7 @@
         </repository>
     </distributionManagement>
 
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>Fuseki YAML Config Parser</name>
     <description>Fuseki YAML config support</description>
     <url>https://github.com/telicent-oss/fuseki-yaml-config</url>
