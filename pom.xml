@@ -114,7 +114,7 @@
         <connection>scm:git:git:/https://github.com/telicent-oss/fuseki-yaml-config.git</connection>
         <developerConnection>scm:git:ssh://https://github.com/telicent-oss/fuseki-yaml-config.git</developerConnection>
         <url>http://https://github.com/telicent-oss/fuseki-yaml-config</url>
-      <tag>1.0.0</tag>
+      <tag>1.0.0-SNAPSHOT</tag>
   </scm>
 
     <licenses>
