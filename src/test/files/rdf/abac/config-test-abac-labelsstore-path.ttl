@@ -16,6 +16,11 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
         authz:labelsStore  [ authz:labelsStorePath
                           "target/labels-store" ] .
 
+[ rdf:type         fuseki:Server;
+  fuseki:name      "Fuseki server simple";
+  fuseki:services  ( :service1 )
+] .
+
 :service1  rdf:type      fuseki:Service;
         fuseki:dataset   :abac-db;
         fuseki:endpoint  [ fuseki:name       "upload";
@@ -23,8 +28,3 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
                          ];
         fuseki:endpoint  [ fuseki:operation  fuseki:query ];
         fuseki:name      "ds" .
-
-[ rdf:type         fuseki:Server;
-  fuseki:name      "Fuseki server simple";
-  fuseki:services  ( :service1 )
-] .

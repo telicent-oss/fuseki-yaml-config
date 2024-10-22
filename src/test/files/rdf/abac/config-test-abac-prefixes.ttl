@@ -8,11 +8,6 @@ PREFIX ja:      <http://jena.hpl.hp.com/2005/11/Assembler#>
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
 
-[ rdf:type         fuseki:Server;
-  fuseki:name      "Fuseki server simple";
-  fuseki:services  ( :service1 )
-] .
-
 :abac-tdb2-db  rdf:type    authz:DatasetAuthz;
         authz:attributes   <file:abac/attribute-store.ttl>;
         authz:cache        false;
@@ -33,3 +28,8 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
                            fuseki:operation  authz:upload
                          ];
         fuseki:name      "ds" .
+
+[ rdf:type         fuseki:Server;
+  fuseki:name      "Fuseki server simple";
+  fuseki:services  ( :service1 )
+] .
