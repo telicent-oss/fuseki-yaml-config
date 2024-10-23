@@ -20,6 +20,7 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
         fuseki:endpoint  [ fuseki:operation  fuseki:query ];
         fuseki:name      "ds" .
 
+
 [ rdf:type         fuseki:Server;
   fuseki:name      "Fuseki server simple";
   fuseki:services  ( :service1 )
