@@ -33,8 +33,6 @@ import org.apache.jena.sparql.exec.RowSetRewindable;
 import org.apache.jena.sparql.exec.http.DSP;
 import org.apache.jena.sparql.exec.http.QueryExecHTTPBuilder;
 import org.apache.jena.sys.JenaSystem;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
 import yamlconfig.ConfigStruct;
 import yamlconfig.RDFConfigGenerator;
 import yamlconfig.YAMLConfigParser;
@@ -51,7 +49,6 @@ public class Dev {
 
     public static void main(String ...args) {
         JenaSystem.init();
-        Configurator.setAllLevels(log.getName(), Level.getLevel("info"));
 
         Graph g = RDFParser.source(DIR+"abac/attribute-store.ttl").toGraph();
         AttributesStore attrStore = Attributes.buildStore(g);
