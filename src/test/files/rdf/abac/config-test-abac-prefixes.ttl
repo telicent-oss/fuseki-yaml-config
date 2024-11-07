@@ -18,11 +18,6 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
 :dataset-under  rdf:type  tdb2:DatasetTDB2;
         tdb2:location  "target/test-abac-DB" .
 
-[ rdf:type         fuseki:Server;
-  fuseki:name      "Fuseki server simple";
-  fuseki:services  ( :service1 )
-] .
-
 :service1  rdf:type      fuseki:Service;
         fuseki:dataset   :abac-tdb2-db;
         fuseki:endpoint  [ fuseki:name       "data-update";
@@ -33,3 +28,8 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
                            fuseki:operation  authz:upload
                          ];
         fuseki:name      "ds" .
+
+[ rdf:type         fuseki:Server;
+  fuseki:name      "Fuseki server simple";
+  fuseki:services  ( :service1 )
+] .
