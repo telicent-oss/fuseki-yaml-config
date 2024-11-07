@@ -11,11 +11,6 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
         authz:cache       false;
         authz:dataset     :dataset-under .
 
-[ rdf:type         fuseki:Server;
-  fuseki:name      "Fuseki server simple";
-  fuseki:services  ( :service1 )
-] .
-
 :dataset-under  rdf:type  tdb2:DatasetTDB2;
         tdb2:location  "target/test-abac-DB" .
 
@@ -26,3 +21,8 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
                          ];
         fuseki:endpoint  [ fuseki:operation  fuseki:query ];
         fuseki:name      "ds" .
+
+[ rdf:type         fuseki:Server;
+  fuseki:name      "Fuseki server simple";
+  fuseki:services  ( :service1 )
+] .

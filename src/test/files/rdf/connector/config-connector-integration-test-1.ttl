@@ -38,6 +38,11 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
         fuseki:endpoint  [ fuseki:operation  fuseki:query ];
         fuseki:name      "ds" .
 
+[ rdf:type         fuseki:Server;
+  fuseki:name      "Fuseki server simple";
+  fuseki:services  ( :service1 :service2 )
+] .
+
 :connector2  rdf:type         fk:Connector;
         fk:bootstrapServers   "localhost:9092";
         fk:fusekiServiceName  "/ds2";
@@ -45,8 +50,3 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
         fk:replayTopic        false;
         fk:stateFile          "Replay-RDF0.state";
         fk:topic              "RDF0" .
-
-[ rdf:type         fuseki:Server;
-  fuseki:name      "Fuseki server simple";
-  fuseki:services  ( :service1 :service2 )
-] .
