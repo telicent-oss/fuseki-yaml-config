@@ -12,11 +12,6 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
                     ];
         ja:data     "src/main/files/abac/data-and-labels.trig" .
 
-[ rdf:type         fuseki:Server;
-  fuseki:name      "Fuseki server simple";
-  fuseki:services  ( :service1 )
-] .
-
 :service1  rdf:type      fuseki:Service;
         fuseki:dataset   :abac-mem-db;
         fuseki:endpoint  [ fuseki:name       "upload";
@@ -24,6 +19,11 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
                          ];
         fuseki:endpoint  [ fuseki:operation  fuseki:query ];
         fuseki:name      "ds" .
+
+[ rdf:type         fuseki:Server;
+  fuseki:name      "Fuseki server simple";
+  fuseki:services  ( :service1 )
+] .
 
 :abac-mem-db  rdf:type    authz:DatasetAuthz;
         authz:attributes  <file:abac/attribute-store.ttl>;
