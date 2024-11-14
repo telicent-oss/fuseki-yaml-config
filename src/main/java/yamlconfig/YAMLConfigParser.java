@@ -238,6 +238,7 @@ public class YAMLConfigParser {
                     String replayTopic = findString(connectorMap, ConfigConstants.replayTopic, "false");
                     String syncTopic = findString(connectorMap, ConfigConstants.syncTopic, "false");
                     Map<String, String> config = findMapString(connectorMap, ConfigConstants.config, emptyMap());
+                    String configFile = findString(connectorMap, ConfigConstants.configFile, "");
 
                     // fusekiServiceName - required, topic - required, bootstrapServers - required, stateFile - required
                     if (fusekiServiceName == null || fusekiServiceName.isEmpty())
@@ -252,7 +253,7 @@ public class YAMLConfigParser {
                         throw new IllegalArgumentException("The value of \"replayTopic\" on the \"" + fusekiServiceName + "\" service connector is \"" + replayTopic + "\", which is not a boolean.");
                     if(!syncTopic.equals("true") && !syncTopic.equals("false"))
                         throw new IllegalArgumentException("The value of \"syncTopic\" on the \"" + fusekiServiceName + "\" service connector is \"" + syncTopic + "\", which is not a boolean.");
-                    Connector tempConnector = new Connector(fusekiServiceName, topic, bootstrapServers, stateFile, groupId, replayTopic, syncTopic, config);
+                    Connector tempConnector = new Connector(fusekiServiceName, topic, bootstrapServers, stateFile, groupId, replayTopic, syncTopic, config, configFile);
                     connectors.add(tempConnector);
                 }
                 configStruct.setConnectors(connectors);

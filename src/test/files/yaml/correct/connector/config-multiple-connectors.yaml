@@ -44,5 +44,6 @@ connectors:
     group-id: "JenaFusekiKafka2"
     replay-topic: true
     sync-topic: true
+    config-file: "env:{KAFKA_CONFIG_FILE_PATH:}"
 
 

@@ -21,5 +21,6 @@ public record Connector(String fusekiServiceName,
                         String groupId,
                         String replayTopic,
                         String syncTopic,
-                        Map<String, String> config) {
+                        Map<String, String> config,
+                        String configFile) {
 }

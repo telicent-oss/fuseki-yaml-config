@@ -734,8 +734,8 @@ public class TestYAMLConfigParser {
         Map<String, String> config1 = new HashMap<String, String>();
         config1.put("key1", "value1");
         config1.put("key2", "value2");
-        Connector connector1 = new Connector("/ds", "env:{ENV_KAFKA_TOPIC:RDF}", "localhost:9092", "dDatabases/RDF.state", "JenaFusekiKafka", "true", "true", config1);
-        Connector connector2 = new Connector("/ds2", "env:{ENV_KAFKA_TOPIC:RDF}", "localhost:9093", "dDatabases/RDF.state", "JenaFusekiKafka2", "true", "true", emptyMap());
+        Connector connector1 = new Connector("/ds", "env:{ENV_KAFKA_TOPIC:RDF}", "localhost:9092", "dDatabases/RDF.state", "JenaFusekiKafka", "true", "true", config1, "");
+        Connector connector2 = new Connector("/ds2", "env:{ENV_KAFKA_TOPIC:RDF}", "localhost:9093", "dDatabases/RDF.state", "JenaFusekiKafka2", "true", "true", emptyMap(), "env:{KAFKA_CONFIG_FILE_PATH:}");
         List<Service> servicesToCheck = new ArrayList<>();
         servicesToCheck.add(service1);
         servicesToCheck.add(service2);
