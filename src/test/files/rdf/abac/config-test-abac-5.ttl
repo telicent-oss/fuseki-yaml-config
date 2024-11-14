@@ -6,6 +6,9 @@ PREFIX ja:     <http://jena.hpl.hp.com/2005/11/Assembler#>
 PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
 
+:dataset-under  rdf:type  ja:MemoryDataset;
+        ja:data   "src/main/files/abac/data-and-labels.trig" .
+
 :abac-db  rdf:type                      authz:DatasetAuthz;
         authz:attributeCacheExpiryTime  "PT1S"^^<http://www.w3.org/2001/XMLSchema#duration>;
         authz:attributeCacheSize        1;
@@ -13,8 +16,10 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
         authz:cache                     true;
         authz:dataset                   :dataset-under .
 
-:dataset-under  rdf:type  ja:MemoryDataset;
-        ja:data   "src/main/files/abac/data-and-labels.trig" .
+[ rdf:type         fuseki:Server;
+  fuseki:name      "Fuseki server simple";
+  fuseki:services  ( :service1 )
+] .
 
 :service1  rdf:type      fuseki:Service;
         fuseki:dataset   :abac-db;
@@ -23,8 +28,3 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
                          ];
         fuseki:endpoint  [ fuseki:operation  fuseki:query ];
         fuseki:name      "ds" .
-
-[ rdf:type         fuseki:Server;
-  fuseki:name      "Fuseki server simple";
-  fuseki:services  ( :service1 )
-] .

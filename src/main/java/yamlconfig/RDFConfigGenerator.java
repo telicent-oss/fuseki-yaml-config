@@ -180,12 +180,16 @@ public class RDFConfigGenerator {
                         .addProperty(model.createProperty(ConfigConstants.FK_NS + "stateFile"), connector.stateFile())
                         .addProperty(model.createProperty(ConfigConstants.FK_NS + "groupId"), connector.groupId())
                         .addProperty(model.createProperty(ConfigConstants.FK_NS + "replayTopic"), model.createTypedLiteral(Boolean.parseBoolean(connector.replayTopic())));
-                Property configProperty = model.createProperty(ConfigConstants.FK_NS + "config");
-                for (Map.Entry<String, String> entry : connector.config().entrySet()) {
-                    RDFList configListTemp = model.createList();
-                    configListTemp = configListTemp.with(model.createLiteral(entry.getKey()));
-                    configListTemp = configListTemp.with(model.createLiteral(String.valueOf(entry.getValue())));
-                    connectorRes.addProperty(configProperty, configListTemp);
+                if(!connector.configFile().isEmpty())
+                        connectorRes.addProperty(model.createProperty(ConfigConstants.FK_NS + "configFile"), connector.configFile());
+                else {
+                    Property configProperty = model.createProperty(ConfigConstants.FK_NS + "config");
+                    for (Map.Entry<String, String> entry : connector.config().entrySet()) {
+                        RDFList configListTemp = model.createList();
+                        configListTemp = configListTemp.with(model.createLiteral(entry.getKey()));
+                        configListTemp = configListTemp.with(model.createLiteral(String.valueOf(entry.getValue())));
+                        connectorRes.addProperty(configProperty, configListTemp);
+                    }
                 }
                 i++;
             }

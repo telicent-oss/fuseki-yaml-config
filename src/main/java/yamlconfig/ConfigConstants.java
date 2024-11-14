@@ -78,6 +78,7 @@ public class ConfigConstants {
     public static final String replayTopic = "replay-topic";
     public static final String syncTopic = "sync-topic";
     public static final String config = "config";
+    public static final String configFile = "config-file";
 
     public static Boolean isPrefixed(String field) {
         Matcher matcher = prefixedField.matcher(field);

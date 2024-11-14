@@ -26,6 +26,11 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
         fuseki:endpoint  [ fuseki:operation  fuseki:query ];
         fuseki:name      "ds2" .
 
+[ rdf:type         fuseki:Server;
+  fuseki:name      "Fuseki server simple";
+  fuseki:services  ( :service1 :service2 )
+] .
+
 :dataset  rdf:type  ja:MemoryDataset .
 
 :service1  rdf:type      fuseki:Service;
@@ -37,11 +42,6 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
                          ];
         fuseki:endpoint  [ fuseki:operation  fuseki:query ];
         fuseki:name      "ds" .
-
-[ rdf:type         fuseki:Server;
-  fuseki:name      "Fuseki server simple";
-  fuseki:services  ( :service1 :service2 )
-] .
 
 :connector2  rdf:type         fk:Connector;
         fk:bootstrapServers   "localhost:9092";

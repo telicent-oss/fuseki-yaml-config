@@ -24,4 +24,5 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
         fk:groupId            "JenaFusekiKafka2";
         fk:replayTopic        true;
         fk:topic              "env:{ENV_KAFKA_TOPIC:RDF}";
-        fk:stateFile          "dDatabases/RDF.state" .
+        fk:stateFile          "dDatabases/RDF.state" ;
+        fk:configFile         "env:{KAFKA_CONFIG_FILE_PATH:}".
