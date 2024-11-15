@@ -1,5 +1,11 @@
 # Fuseki YAML Config Parser
+## 1.0.3
+- Update connector-service mismatch checks
+
 ## 1.0.2
+- Add fk:configFile field to connectors
+
+## 1.0.1
 - Minor improvements to build
 
 ## 1.0.0

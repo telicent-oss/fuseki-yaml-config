@@ -755,6 +755,49 @@ public class TestYAMLConfigParser {
     }
 
     @Test
+    public void connectorsTest2() {
+        ConfigStruct configToCheck = new ConfigStruct();
+        Server serverToCheck = new Server("Fuseki server simple", emptyMap());
+        Map<String, String> prefixes = new HashMap<>();
+        List<Endpoint> endpoints1 = new ArrayList<>();
+        Map<String, String> settings1 = new HashMap<String, String>();
+        settings1.put("arq:queryTimeout", "1000,10000");
+        endpoints1.add(new Endpoint("sparql", "query",settings1));
+        endpoints1.add(new Endpoint("data-update", "update", emptyMap()));
+        Service service1 = new Service("ds", endpoints1, "tdb2-db");
+        Database database1 = new Database("tdb2-db", ConfigConstants.TDB2, "", "", "","", "", "", "target/test-DB", "", "false", "", "", "", "", "", emptyMap());
+        List<Endpoint> endpoints2 = new ArrayList<>();
+        Map<String, String> settings2 = new HashMap<String, String>();
+        settings2.put("arq:queryTimeout", "1000,10000");
+        endpoints2.add(new Endpoint("sparql", "query",settings2));
+        endpoints2.add(new Endpoint("data-update", "update", emptyMap()));
+        Service service2 = new Service("ds2", endpoints2, "tdb2-db");
+        configToCheck.setServer(serverToCheck);
+        Map<String, String> config1 = new HashMap<String, String>();
+        config1.put("key1", "value1");
+        config1.put("key2", "value2");
+        Connector connector1 = new Connector("/ds", "env:{ENV_KAFKA_TOPIC:RDF}", "localhost:9092", "dDatabases/RDF.state", "JenaFusekiKafka", "true", "true", config1, "");
+        Connector connector2 = new Connector("/ds2/data-update", "env:{ENV_KAFKA_TOPIC:RDF}", "localhost:9093", "dDatabases/RDF.state", "JenaFusekiKafka2", "true", "true", emptyMap(), "env:{KAFKA_CONFIG_FILE_PATH:}");
+        List<Service> servicesToCheck = new ArrayList<>();
+        servicesToCheck.add(service1);
+        servicesToCheck.add(service2);
+        configToCheck.setServices(servicesToCheck);
+        List<Database> databasesToCheck = new ArrayList<>();
+        databasesToCheck.add(database1);
+        configToCheck.setDatabases(databasesToCheck);
+        List<Connector> connectorsToCheck = new ArrayList<>();
+        connectorsToCheck.add(connector1);
+        connectorsToCheck.add(connector2);
+        configToCheck.setConnectors(connectorsToCheck);
+        configToCheck.setVersion("1.0");
+        configToCheck.setPrefixes(prefixes);
+        Map<String, Object> map = ycp.parseYAMLConfigToMap("src/test/files/yaml/correct/connector/config-multiple-connectors-2.yaml");
+        ConfigStruct config = ycp.mapToConfigStruct(map);
+        assertEquals(config.toString(), configToCheck.toString());
+    }
+
+
+    @Test
     public void missingFusekiServiceNameTest() {
         RuntimeException ex = assertThrows(RuntimeException.class,() -> {
             ycp.runYAMLParser("src/test/files/yaml/wrong/connector/config-connector-missing-service-name.yaml");
@@ -798,6 +841,22 @@ public class TestYAMLConfigParser {
     public void ServiceNameMismatchTest2() {
         RuntimeException ex = assertThrows(RuntimeException.class,() -> {
             ycp.runYAMLParser("src/test/files/yaml/wrong/connector/config-connector-servicename-mismatch-2.yaml");
+        });
+        assertEquals("java.lang.IllegalArgumentException: Mismatch between existing services and the destination services of the connectors.", ex.getMessage());
+    }
+
+    @Test
+    public void ServiceNameMismatchTest3() {
+        RuntimeException ex = assertThrows(RuntimeException.class,() -> {
+            ycp.runYAMLParser("src/test/files/yaml/wrong/connector/config-connector-servicename-mismatch-3.yaml");
+        });
+        assertEquals("java.lang.IllegalArgumentException: Mismatch between existing services and the destination services of the connectors.", ex.getMessage());
+    }
+
+    @Test
+    public void ServiceNameMismatchTest4() {
+        RuntimeException ex = assertThrows(RuntimeException.class,() -> {
+            ycp.runYAMLParser("src/test/files/yaml/wrong/connector/config-connector-servicename-mismatch-4.yaml");
         });
         assertEquals("java.lang.IllegalArgumentException: Mismatch between existing services and the destination services of the connectors.", ex.getMessage());
     }
