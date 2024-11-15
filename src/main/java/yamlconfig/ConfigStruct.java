@@ -152,7 +152,35 @@ public class ConfigStruct {
                 }
             }
             for (String service : servicesFromConnectors) {
-                if (!servicesFromServices.contains(service))
+                if (checkForServicesMismatchWithEndpoints(servicesFromServices, service))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkForServicesMismatchWithEndpoints(Set<String> servicesFromServices, String connectorService) {
+        if (servicesFromServices.contains(connectorService))
+            return false;
+        try {
+            String serviceName = "/" + connectorService.split("/")[1];
+            String endpoint = connectorService.split("/")[2];
+        }
+        catch (RuntimeException ex) {
+            log.error(ex.getMessage());
+            return true;
+        }
+        if (servicesFromServices.contains("/" + connectorService.split("/")[1])) {
+            Service theService = this.services.stream()
+                    .filter(service -> service.name().equals(connectorService.split("/")[1]))
+                    .findFirst()
+                    .orElse(null);
+            if (theService != null) {
+                Endpoint theEndpoint = theService.endpoints().stream()
+                        .filter(endpoint -> endpoint.name().equals(connectorService.split("/")[2]))
+                        .findFirst()
+                        .orElse(null);
+                if (theEndpoint != null)
                     return false;
             }
         }

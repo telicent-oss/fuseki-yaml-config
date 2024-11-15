@@ -938,6 +938,60 @@ public class TestRDFConfigGenerator {
         assertTrue(isIsomorphic);
     }
 
+    @Test
+    public void connectorsTest2() {
+        ConfigStruct config = ycp.runYAMLParser("src/test/files/yaml/correct/connector/config-multiple-connectors-2.yaml");
+        Model model = rcg.createRDFModel(config);
+        try (FileOutputStream out = new FileOutputStream("target/files/rdf/rdf-generator-test-17.ttl")) {
+            model.write(out, "TTL");
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+
+        Model model2 = ModelFactory.createDefaultModel();
+        RDFDataMgr.read(model2, "target/files/rdf/rdf-generator-test-17.ttl", baseUri, Lang.TURTLE);
+
+        model2.setNsPrefix("", baseUri);
+        Model connectorModel = ModelFactory.createDefaultModel();
+
+        Pattern pattern = Pattern.compile(".*connector.*", Pattern.CASE_INSENSITIVE);
+        ResIterator resIterator = model2.listSubjects();
+
+        while (resIterator.hasNext()) {
+            Resource resource = resIterator.nextResource();
+            String localName = resource.getLocalName();
+
+            if (localName != null && pattern.matcher(localName).matches()) {
+                StmtIterator iterator = model2.listStatements(resource, null, (RDFNode) null);
+                while (iterator.hasNext()) {
+                    Statement stmt = iterator.nextStatement();
+                    RDFNode object = stmt.getObject();
+                    if (object.isResource() && object.canAs(RDFList.class)) {
+                        RDFList list = object.as(RDFList.class);
+                        RDFList copiedList = collectConfigLists(connectorModel, model2, list);
+                        connectorModel.add(resource, stmt.getPredicate(), copiedList);
+                    }
+                    else
+                        connectorModel.add(stmt);
+                }
+            }
+        }
+        Model expectedConnectorModel = ModelFactory.createDefaultModel();
+        expectedConnectorModel.setNsPrefix("", baseUri);
+        expectedConnectorModel.setNsPrefix("fuseki", ConfigConstants.FUSEKI_NS);
+        expectedConnectorModel.setNsPrefix("rdf", ConfigConstants.RDF_NS);
+        expectedConnectorModel.setNsPrefix("ja", ConfigConstants.JA_NS);
+        expectedConnectorModel.setNsPrefix("tdb2", ConfigConstants.TDB2_NS);
+        expectedConnectorModel.setNsPrefix("authz", ConfigConstants.AUTHZ_NS);
+        expectedConnectorModel.setNsPrefix("fk", ConfigConstants.FK_NS);
+        RDFDataMgr.read(expectedConnectorModel, "src/test/files/rdf/connector2.ttl", baseUri, Lang.TURTLE);
+
+        boolean isIsomorphic = connectorModel.isIsomorphicWith(expectedConnectorModel);
+        if ( ! isIsomorphic ) {
+            printDifference(expectedConnectorModel, connectorModel);
+        }
+        assertTrue(isIsomorphic);
+    }
 
     @Test
     public void hierarchyCacheSizeNotIntTest() {
