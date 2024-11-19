@@ -284,10 +284,18 @@ public class TestYAMLConfigParser {
 
     @Test
     public void invalidOperationTest() {
-        RuntimeException ex = assertThrows(RuntimeException.class,() -> {
-            ycp.runYAMLParser("src/test/files/yaml/wrong/config-wrong-operation.yaml");
-        });
-        assertEquals("java.lang.IllegalArgumentException: Operation wrong does not exist in the OperationRegistry", ex.getMessage());
+        Configurator.setLevel(logger.getName(), org.apache.logging.log4j.Level.WARN);
+        TestLogAppender logAppender = TestLogAppender.createAndRegister();
+        logger.addAppender(logAppender);
+        ycp.runYAMLParser("src/test/files/yaml/warnings/config-wrong-operation.yaml");
+        List<LogEvent> logEvents = logAppender.getLogEvents();
+        try {
+            assertEquals(1, logEvents.size());
+            assertTrue(logEvents.get(0).getMessage().getFormattedMessage().contains("Operation wrong does not exist in the OperationRegistry"));
+        }
+        finally {
+            logger.removeAppender(logAppender);
+        }
     }
 
     @Test

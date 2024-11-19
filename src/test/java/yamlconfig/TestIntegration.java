@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static yamlconfig.ConfigConstants.*;
 
 /** Tests for servers without ABAC databases. */
@@ -109,6 +110,7 @@ public class TestIntegration {
         assertEquals(expectedResponse, actualResponse);
     }
 
+
     @Test
     public void tdb2DatabaseTest() {
         ConfigStruct config = ycp.runYAMLParser("src/test/files/yaml/correct/config-tdb2.yaml");
@@ -155,4 +157,24 @@ public class TestIntegration {
         assertEquals(expectedResponse, actualResponse);
     }
 
+    @Test
+    public void unregisteredOperationTest() {
+        ConfigStruct config = ycp.runYAMLParser("src/test/files/yaml/wrong/config-unregistered-op.yaml");
+        Model model = rcg.createRDFModel(config);
+        try (FileOutputStream out = new FileOutputStream("target/files/rdf/config-test-4.ttl")) {
+            model.write(out, "TTL");
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+        FusekiServer server =
+                FusekiServer.create().port(3131)
+                        .parseConfigFile("target/files/rdf/config-test-4.ttl")
+                        .build()
+                        .start();
+
+        RuntimeException ex = assertThrows(RuntimeException.class,() -> { String wrongPoint = HttpOp.httpGetString(url + "/bad-op");
+        });
+        server.stop();
+        assertEquals("400 - Bad Request", ex.getMessage());
+    }
 }
