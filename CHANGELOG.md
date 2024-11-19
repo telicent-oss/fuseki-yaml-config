@@ -1,4 +1,7 @@
 # Fuseki YAML Config Parser
+## 1.0.4
+- Change the unregistered operation error to a warning
+
 ## 1.0.3
 - Update connector-service mismatch checks
 

@@ -205,7 +205,7 @@ public class ConfigStruct {
                 else
                     operation = Operation.alloc(ConfigConstants.FUSEKI_NS + endpoint.operation(), endpoint.operation(), "");
                 if(!operationRegistry.isRegistered(operation))
-                    throw new RuntimeException("Operation " + endpoint.operation() + " does not exist in the OperationRegistry");
+                    log.warn("Operation {} does not exist in the OperationRegistry", endpoint.operation());
             }
         }
     }

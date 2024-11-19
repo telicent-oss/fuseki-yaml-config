@@ -6,8 +6,10 @@ PREFIX ja:     <http://jena.hpl.hp.com/2005/11/Assembler#>
 PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
 
-:dataset-under  rdf:type  tdb2:DatasetTDB2;
-        tdb2:location  "target/test-abac-DB" .
+[ rdf:type         fuseki:Server;
+  fuseki:name      "Fuseki server simple";
+  fuseki:services  ( :service1 )
+] .
 
 :abac-db  rdf:type         authz:DatasetAuthz;
         authz:attributes   <file:abac/attribute-store.ttl>;
@@ -16,10 +18,8 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
         authz:labelsStore  [ authz:labelsStorePath
                           "target/labels-store" ] .
 
-[ rdf:type         fuseki:Server;
-  fuseki:name      "Fuseki server simple";
-  fuseki:services  ( :service1 )
-] .
+:dataset-under  rdf:type  tdb2:DatasetTDB2;
+        tdb2:location  "target/test-abac-DB" .
 
 :service1  rdf:type      fuseki:Service;
         fuseki:dataset   :abac-db;

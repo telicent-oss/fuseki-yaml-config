@@ -1,0 +1,158 @@
+#
+# Copyright (C) 2024 Telicent Limited
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+version: "1.0"
+
+prefixes:
+  - prefix: "fk"
+    namespace: "http://jena.apache.org/fuseki/kafka#"
+  - prefix: "cqrs"
+    namespace: "http://telicent.io/cqrs#"
+  - prefix: "graphql"
+    namespace: "https://telicent.io/fuseki/modules/graphql#"
+  - prefix: "authz"
+    namespace: "http://telicent.io/security#"
+
+server:
+  name: "Server"
+  settings:
+    "ja:cxtName": "arq:httpServiceAllowed"
+    "ja:cxtValue": "false"
+
+services:
+  - name: "knowledge"
+    endpoints:
+      - name: "sparql"
+        operation: query
+        settings:
+          "ja:cxtName": "arq:queryTimeout"
+          "ja:cxtValue": "120000,120000"
+      - name: "query"
+        operation: query
+        settings:
+          "ja:cxtName": "arq:queryTimeout"
+          "ja:cxtValue": "120000,120000"
+      - name: "update"
+        operation: cqrs:update
+        settings:
+          "ja:cxtName": "kafka:topic"
+          "ja:cxtValue": "knowledge"
+      - name: "graphql"
+        operation: graphql:graphql
+        settings:
+          "ja:cxtName": "graphql:executor"
+          "ja:cxtValue": "io.telicent.jena.graphql.execution.telicent.graph.TelicentGraphExecutor"
+      - name: "get"
+        operation: gsp-r
+      - name: "upload"
+        operation: authz:upload
+    database: "datasetAuth"
+  - name: "ontology"
+    endpoints:
+      - name: "sparql"
+        operation: query
+      - operation: query
+      - name: "query"
+        operation: query
+      - name: "update"
+        operation: cqrs:update
+        settings:
+          "ja:cxtName": "kafka:topic"
+          "ja:cxtValue": "ontology"
+      - name: "graphql"
+        operation: graphql:graphql
+        settings:
+          "ja:cxtName": "graphql:executor"
+          "ja:cxtValue": "io.telicent.jena.graphql.execution.telicent.graph.TelicentGraphExecutor"
+      - name: "get"
+        operation: gsp-r
+      - name: "upload"
+        operation: authz:upload
+    database: "ontologyDataset"
+  - name: "catalog"
+    endpoints:
+      - name: "sparql"
+        operation: query
+      - operation: query
+      - name: "query"
+        operation: query
+      - name: "update"
+        operation: cqrs:update
+        settings:
+          "ja:cxtName": "kafka:topic"
+          "ja:cxtValue": "catalog"
+      - name: "graphql"
+        operation: graphql:graphql
+        settings:
+          "ja:cxtName": "graphql:executor"
+          "ja:cxtValue": "io.telicent.jena.graphql.execution.telicent.graph.TelicentGraphExecutor"
+      - name: "get"
+        operation: gsp-r
+      - name: "upload"
+        operation: authz:upload
+      - name: "shacl"
+        operation: shacl
+    database: "catalogDataset"
+
+databases:
+  - name: "datasetAuth"
+    dbtype: ABAC
+    dataset: "datasetAuthBase"
+    triple-default-labels: "!"
+    labels-store: "/fuseki/databases/ontologyLabels.db"
+    attributes-url: "env:{USER_ATTRIBUTES_URL}"
+    hierarchies-url: "env:{ATTRIBUTE_HIERARCHY_URL}"
+  - name: "datasetAuthBase"
+    dbtype: TDB2
+    location: "/fuseki/databases/knowledge"
+  - name: "ontologyDataset"
+    dbtype: ABAC
+    dataset: "datasetOntoBase"
+    triple-default-labels: "!"
+    labels-store: "/fuseki/databases/knowledgeLabels.db"
+    attributes-url: "env:{USER_ATTRIBUTES_URL}"
+    hierarchies-url: "env:{ATTRIBUTE_HIERARCHY_URL}"
+  - name: "datasetOntoBase"
+    dbtype: TDB2
+    location: "/fuseki/databases/ontology"
+  - name: "catalogDataset"
+    dbtype: ABAC
+    dataset: "datasetCatBase"
+    triple-default-labels: "!"
+    labels-store: "/fuseki/databases/catalogLabels.db"
+    attributes-url: "env:{USER_ATTRIBUTES_URL}"
+    hierarchies-url: "env:{ATTRIBUTE_HIERARCHY_URL}"
+  - name: "datasetCatBase"
+    dbtype: TDB2
+    location: "/fuseki/databases/catalog"
+
+connectors:
+  - fuseki-service: "/knowledge/upload"
+    topic: "knowledge"
+    bootstrap-servers: "b-3.systemintegrationmskcl.7nvqus.c2.kafka.eu-west-2.amazonaws.com:9096,b-1.systemintegrationmskcl.7nvqus.c2.kafka.eu-west-2.amazonaws.com:9096,b-2.systemintegrationmskcl.7nvqus.c2.kafka.eu-west-2.amazonaws.com:9096"
+    state-file: "/fuseki/databases/Replay-RDF.state"
+    sync-topic: false
+    config-file: "env:{KAFKA_CONFIG_FILE_PATH:}"
+  - fuseki-service: "/ontology/upload"
+    topic: "ontology"
+    bootstrap-servers: "b-3.systemintegrationmskcl.7nvqus.c2.kafka.eu-west-2.amazonaws.com:9096,b-1.systemintegrationmskcl.7nvqus.c2.kafka.eu-west-2.amazonaws.com:9096,b-2.systemintegrationmskcl.7nvqus.c2.kafka.eu-west-2.amazonaws.com:9096"
+    state-file: "/fuseki/databases/Replay-RDF.state"
+    sync-topic: false
+    config-file: "env:{KAFKA_CONFIG_FILE_PATH:}"
+  - fuseki-service: "/catalog/upload"
+    topic: "catalog"
+    bootstrap-servers: "b-3.systemintegrationmskcl.7nvqus.c2.kafka.eu-west-2.amazonaws.com:9096,b-1.systemintegrationmskcl.7nvqus.c2.kafka.eu-west-2.amazonaws.com:9096,b-2.systemintegrationmskcl.7nvqus.c2.kafka.eu-west-2.amazonaws.com:9096"
+    state-file: "/fuseki/databases/Replay-RDF.state"
+    sync-topic: false
+    config-file: "env:{KAFKA_CONFIG_FILE_PATH:}"

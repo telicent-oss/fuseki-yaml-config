@@ -20,40 +20,35 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
 :datasetAuthBase  rdf:type  tdb2:DatasetTDB2;
         tdb2:location  "/fuseki/databases/knowledge" .
 
-[ rdf:type         fuseki:Server;
-  fuseki:name      "Server";
-  fuseki:services  ( :service1 :service2 :service3 )
-] .
-
 :datasetOntoBase  rdf:type  tdb2:DatasetTDB2;
         tdb2:location  "/fuseki/databases/ontology" .
 
 :service2  rdf:type      fuseki:Service;
         fuseki:dataset   :ontologyDataset;
-        fuseki:endpoint  [ fuseki:name       "update";
-                           fuseki:operation  cqrs:update;
-                           ja:context        [ ja:ctxName   "ja:cxtValue" , "ja:cxtName";
-                                               ja:ctxValue  "ontology" , "kafka:topic"
-                                             ]
+        fuseki:endpoint  [ fuseki:name       "get";
+                           fuseki:operation  fuseki:gsp-r
                          ];
-        fuseki:endpoint  [ fuseki:name       "query";
-                           fuseki:operation  fuseki:query
-                         ];
-        fuseki:endpoint  [ fuseki:operation  fuseki:query ];
         fuseki:endpoint  [ fuseki:name       "graphql";
                            fuseki:operation  graphql:graphql;
                            ja:context        [ ja:ctxName   "ja:cxtValue" , "ja:cxtName";
                                                ja:ctxValue  "io.telicent.jena.graphql.execution.telicent.graph.TelicentGraphExecutor" , "graphql:executor"
                                              ]
                          ];
-        fuseki:endpoint  [ fuseki:name       "upload";
-                           fuseki:operation  authz:upload
-                         ];
-        fuseki:endpoint  [ fuseki:name       "get";
-                           fuseki:operation  fuseki:gsp-r
+        fuseki:endpoint  [ fuseki:name       "query";
+                           fuseki:operation  fuseki:query
                          ];
         fuseki:endpoint  [ fuseki:name       "sparql";
                            fuseki:operation  fuseki:query
+                         ];
+        fuseki:endpoint  [ fuseki:name       "update";
+                           fuseki:operation  cqrs:update;
+                           ja:context        [ ja:ctxName   "ja:cxtValue" , "ja:cxtName";
+                                               ja:ctxValue  "ontology" , "kafka:topic"
+                                             ]
+                         ];
+        fuseki:endpoint  [ fuseki:operation  fuseki:query ];
+        fuseki:endpoint  [ fuseki:name       "upload";
+                           fuseki:operation  authz:upload
                          ];
         fuseki:name      "ontology" .
 
@@ -121,6 +116,11 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
                          ];
         fuseki:name      "knowledge" .
 
+[ rdf:type         fuseki:Server;
+  fuseki:name      "Server";
+  fuseki:services  ( :service1 :service2 :service3 )
+] .
+
 :catalogDataset  rdf:type          authz:DatasetAuthz;
         authz:attributesURL        "env:{USER_ATTRIBUTES_URL}";
         authz:cache                false;
@@ -141,8 +141,14 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
 
 :service3  rdf:type      fuseki:Service;
         fuseki:dataset   :catalogDataset;
-        fuseki:endpoint  [ fuseki:name       "query";
-                           fuseki:operation  fuseki:query
+        fuseki:endpoint  [ fuseki:name       "get";
+                           fuseki:operation  fuseki:gsp-r
+                         ];
+        fuseki:endpoint  [ fuseki:name       "update";
+                           fuseki:operation  cqrs:update;
+                           ja:context        [ ja:ctxName   "ja:cxtValue" , "ja:cxtName";
+                                               ja:ctxValue  "catalog" , "kafka:topic"
+                                             ]
                          ];
         fuseki:endpoint  [ fuseki:name       "graphql";
                            fuseki:operation  graphql:graphql;
@@ -150,22 +156,16 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
                                                ja:ctxValue  "io.telicent.jena.graphql.execution.telicent.graph.TelicentGraphExecutor" , "graphql:executor"
                                              ]
                          ];
-        fuseki:endpoint  [ fuseki:name       "shacl";
-                           fuseki:operation  fuseki:shacl
-                         ];
-        fuseki:endpoint  [ fuseki:name       "get";
-                           fuseki:operation  fuseki:gsp-r
-                         ];
         fuseki:endpoint  [ fuseki:name       "upload";
                            fuseki:operation  authz:upload
                          ];
-        fuseki:endpoint  [ fuseki:operation  fuseki:query ];
-        fuseki:endpoint  [ fuseki:name       "update";
-                           fuseki:operation  cqrs:update;
-                           ja:context        [ ja:ctxName   "ja:cxtValue" , "ja:cxtName";
-                                               ja:ctxValue  "catalog" , "kafka:topic"
-                                             ]
+        fuseki:endpoint  [ fuseki:name       "shacl";
+                           fuseki:operation  fuseki:shacl
                          ];
+        fuseki:endpoint  [ fuseki:name       "query";
+                           fuseki:operation  fuseki:query
+                         ];
+        fuseki:endpoint  [ fuseki:operation  fuseki:query ];
         fuseki:endpoint  [ fuseki:name       "sparql";
                            fuseki:operation  fuseki:query
                          ];
