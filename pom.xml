@@ -8,7 +8,7 @@
     <artifactId>fuseki-yaml-config</artifactId>
     <packaging>jar</packaging>
 
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
 
     <name>Fuseki YAML Config Parser</name>
     <description>Fuseki YAML config support</description>
