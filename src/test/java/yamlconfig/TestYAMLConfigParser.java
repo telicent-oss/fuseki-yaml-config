@@ -151,6 +151,36 @@ public class TestYAMLConfigParser {
     }
 
     @Test
+    public void serverContextTest() {
+        ConfigStruct configToCheck = new ConfigStruct();
+        Map<String, String> settings0 = new HashMap<String, String>();
+        settings0.put("arq:httpServiceAllowed", "false");
+        Server serverToCheck = new Server("Fuseki server 1", settings0);
+        List<Endpoint> endpoints1 = new ArrayList<>();
+        Service service1 = new Service("/ds", endpoints1, "mem-db");
+        Database database1 = new Database("mem-db", ConfigConstants.TIM, "", "", "", "", "", "", "", "", "false", "", "", "", "", "", emptyMap());
+        List<Endpoint> endpoints2 = new ArrayList<>();
+        endpoints2.add(new Endpoint("sparql", "query", emptyMap()));
+        Service service2 = new Service("/db2", endpoints2, "tdb2-db");
+        Map<String, String> settings2 = new HashMap<String, String>();
+        settings2.put( "tdb2:unionDefaultGraph", "true");
+        Database database2 = new Database("tdb2-db", ConfigConstants.TDB2, "", "", "", "", "", "", "DB2", "", "false", "", "", "", "", "", settings2);
+        configToCheck.setServer(serverToCheck);
+        List<Service> servicesToCheck = new ArrayList<>();
+        servicesToCheck.add(service1);
+        servicesToCheck.add(service2);
+        configToCheck.setServices(servicesToCheck);
+        List<Database> databasesTocCheck = new ArrayList<>();
+        databasesTocCheck.add(database1);
+        databasesTocCheck.add(database2);
+        configToCheck.setDatabases(databasesTocCheck);
+        configToCheck.setVersion("1.0");
+        Map<String, Object> map = ycp.parseYAMLConfigToMap("src/test/files/yaml/correct/config-server-context.yaml");
+        ConfigStruct config = ycp.mapToConfigStruct(map);
+        assertEquals(config.toString(), configToCheck.toString());
+    }
+
+    @Test
     public void ABACtdb2NoLabelsTest() {
         Configurator.setLevel(logger.getName(), org.apache.logging.log4j.Level.WARN);
         TestLogAppender logAppender = TestLogAppender.createAndRegister();

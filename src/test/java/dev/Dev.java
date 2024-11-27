@@ -56,16 +56,16 @@ public class Dev {
         YAMLConfigParser ycp = new YAMLConfigParser();
         RDFConfigGenerator rcg = new RDFConfigGenerator();
         try {
-            ConfigStruct config2 = ycp.runYAMLParser("src/main/files/config-abac-tdb2.yaml");
+            ConfigStruct config2 = ycp.runYAMLParser("src/test/files/yaml/correct/config-server-context.yaml");
             Model model2 = rcg.createRDFModel(config2);
             model2.write(System.out, "TTL");
-            try (FileOutputStream out = new FileOutputStream("src/main/files/config.ttl")) {
+            try (FileOutputStream out = new FileOutputStream("src/main/files/config-server-context.ttl")) {
                 model2.write(out, "TTL");
             } catch (IOException e) {
                 log.error(e.getMessage());
             }
             log.info(config2.toString());
-            FusekiServer server2 = server("config.ttl");
+            FusekiServer server2 = server("config-server-context.ttl");
             server2.start();
             log.info("Server started");
             load(server2);

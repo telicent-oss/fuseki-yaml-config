@@ -1,0 +1,34 @@
+PREFIX :       <#>
+PREFIX authz:  <http://telicent.io/security#>
+PREFIX fk:     <http://jena.apache.org/fuseki/kafka#>
+PREFIX fuseki: <http://jena.apache.org/fuseki#>
+PREFIX ja:     <http://jena.hpl.hp.com/2005/11/Assembler#>
+PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
+
+:mem-db  rdf:type  ja:MemoryDataset .
+
+:service2  rdf:type      fuseki:Service;
+        fuseki:dataset   :tdb2-db;
+        fuseki:endpoint  [ fuseki:name       "sparql";
+                           fuseki:operation  fuseki:query
+                         ];
+        fuseki:name      "/db2" .
+
+[ rdf:type         fuseki:Server;
+  fuseki:name      "Fuseki server 1";
+  fuseki:services  ( :service1 :service2 );
+  ja:context       [ ja:ctxName   "arq:httpServiceAllowed";
+                     ja:ctxValue  "false"
+                   ]
+] .
+
+:tdb2-db  rdf:type     tdb2:DatasetTDB2;
+        tdb2:location  "DB2";
+        ja:context     [ ja:ctxName   "tdb2:unionDefaultGraph";
+                         ja:ctxValue  "true"
+                       ] .
+
+:service1  rdf:type     fuseki:Service;
+        fuseki:dataset  :mem-db;
+        fuseki:name     "/ds" .
