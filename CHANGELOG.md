@@ -1,4 +1,7 @@
 # Fuseki YAML Config Parser
+## 1.0.5
+- Add missing server context generation
+
 ## 1.0.4
 - Change the unregistered operation error to a warning
 

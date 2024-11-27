@@ -1,0 +1,13 @@
+PREFIX :       <#>
+PREFIX authz:  <http://telicent.io/security#>
+PREFIX fk:     <http://jena.apache.org/fuseki/kafka#>
+PREFIX fuseki: <http://jena.apache.org/fuseki#>
+PREFIX ja:     <http://jena.hpl.hp.com/2005/11/Assembler#>
+PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
+
+[ rdf:type         fuseki:Server;
+  ja:context       [ ja:ctxName   "arq:httpServiceAllowed";
+                     ja:ctxValue  "false"
+                   ]
+] .

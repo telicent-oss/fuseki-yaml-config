@@ -43,6 +43,14 @@ public class RDFConfigGenerator {
         Resource serverRes = model.createResource()
                 .addProperty(RDF.type, ResourceFactory.createResource(ConfigConstants.FUSEKI_NS + "Server"))
                 .addProperty(model.createProperty(ConfigConstants.FUSEKI_NS + "name"), server.name());
+        if (server.settings() != null && !server.settings().isEmpty()) {
+            Resource settingsRes = model.createResource();
+            for (Map.Entry<String, String> entry : server.settings().entrySet()) {
+                settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "ctxName"), entry.getKey())
+                        .addProperty(model.createProperty(ConfigConstants.JA_NS + "ctxValue"), String.valueOf(entry.getValue()));
+            }
+            serverRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "context"), settingsRes);
+        }
 
         int i = 1;
         List<Database> databases = config.getDatabases();

@@ -232,6 +232,64 @@ public class TestRDFConfigGenerator {
     }
 
     @Test
+    public void serverContextTest() {
+        ConfigStruct config = ycp.runYAMLParser("src/test/files/yaml/correct/config-server-context.yaml");
+        Model model = rcg.createRDFModel(config);
+        try (FileOutputStream out = new FileOutputStream("target/files/rdf/rdf-generator-test-17.ttl")) {
+            model.write(out, "TTL");
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+
+        Model model2 = ModelFactory.createDefaultModel();
+        RDFDataMgr.read(model2, "target/files/rdf/rdf-generator-test-17.ttl", baseUri, Lang.TURTLE);
+
+        Resource fusekiServerType = model2.createResource(FUSEKI_NS + "Server");
+        Resource serverResource = model2.listResourcesWithProperty(RDF.type, fusekiServerType).nextResource();
+
+        Property serverProperty = model2.createProperty(FUSEKI_NS + "#", "Server");
+        model2.setNsPrefix("", baseUri);
+        Model serverModel = ModelFactory.createDefaultModel();
+        StmtIterator iterator = model2.listStatements(serverProperty, null, (RDFNode) null);
+        while (iterator.hasNext()) {
+            Statement stmt = iterator.nextStatement();
+            serverModel.add(stmt);
+            RDFNode object = stmt.getObject();
+            if (object.isAnon()) {
+                collectBlankNodeStatements(serverModel, model2, object.asResource());
+            }
+        }
+        Model contextModel = ModelFactory.createDefaultModel();
+        Property jaContext = serverModel.createProperty(JA_NS, "context");
+
+        if (serverResource.hasProperty(jaContext)) {
+            Statement contextStmt = serverResource.getProperty(jaContext);
+            RDFNode contextNode = contextStmt.getObject();
+
+            contextModel.add(serverResource, RDF.type, serverResource.getProperty(RDF.type).getObject());
+            contextModel.add(serverResource, jaContext, contextNode);
+
+            if (contextNode.isResource()) {
+                Resource contextResource = contextNode.asResource();
+                StmtIterator contextProperties = contextResource.listProperties();
+                while (contextProperties.hasNext()) {
+                    Statement stmt = contextProperties.nextStatement();
+                    contextModel.add(stmt);
+                }
+            }
+        }
+        Model expectedContextModel = ModelFactory.createDefaultModel();
+        expectedContextModel.setNsPrefix("", baseUri);
+        RDFDataMgr.read(expectedContextModel, "src/test/files/rdf/server-context.ttl", baseUri, Lang.TURTLE);
+
+        boolean isIsomorphic = contextModel.isIsomorphicWith(expectedContextModel);
+        if ( ! isIsomorphic ) {
+            printDifference(expectedContextModel, contextModel);
+        }
+        assertTrue(isIsomorphic);
+    }
+
+    @Test
     public void multipleDatabasesContextTest() {
         ConfigStruct config = ycp.runYAMLParser("src/test/files/yaml/correct/config-many-contexts.yaml");
         Model model = rcg.createRDFModel(config);

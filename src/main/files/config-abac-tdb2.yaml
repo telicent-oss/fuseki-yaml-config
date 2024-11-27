@@ -15,7 +15,7 @@ databases:
     dbtype: ABAC
     dataset: "dataset-under"
     attributes: "abac/attribute-store.ttl"
-    #labels-store: "target/labels"
+    labels-store: "target/labels"
 
   - name: "dataset-under"
     dbtype: TDB2
