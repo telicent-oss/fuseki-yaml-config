@@ -6,6 +6,8 @@ server:
 services:
   - name: "/ds"
     endpoints:
+      - name: "sparql"
+        operation: query
     database:  "mem-db"
   - name: "/db2"
     endpoints:

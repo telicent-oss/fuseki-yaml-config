@@ -157,6 +157,7 @@ public class TestYAMLConfigParser {
         settings0.put("arq:httpServiceAllowed", "false");
         Server serverToCheck = new Server("Fuseki server 1", settings0);
         List<Endpoint> endpoints1 = new ArrayList<>();
+        endpoints1.add(new Endpoint("sparql", "query", emptyMap()));
         Service service1 = new Service("/ds", endpoints1, "mem-db");
         Database database1 = new Database("mem-db", ConfigConstants.TIM, "", "", "", "", "", "", "", "", "false", "", "", "", "", "", emptyMap());
         List<Endpoint> endpoints2 = new ArrayList<>();

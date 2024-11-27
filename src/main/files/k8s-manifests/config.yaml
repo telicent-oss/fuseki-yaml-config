@@ -12,6 +12,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
+
+# version required in yaml
 version: "1.0"
 
 prefixes:
@@ -25,6 +27,7 @@ prefixes:
     namespace: "http://telicent.io/security#"
 
 server:
+  # name required in yaml
   name: "Server"
   settings:
     'arq:httpServiceAllowed': "false"
@@ -73,6 +76,26 @@ services:
       - name: "upload"
         operation: authz:upload
     database: "ontologyDataset"
+  - name: "catalog"
+    endpoints:
+      - name: "sparql"
+        operation: query
+      - operation: query
+      - name: "query"
+        operation: query
+      - name: "update"
+        operation: cqrs:update
+        settings:
+          'kafka:topic': "catalog"
+      - name: "graphql"
+        operation: graphql:graphql
+        settings:
+          'graphql:executor': "io.telicent.jena.graphql.execution.telicent.graph.TelicentGraphExecutor"
+      - name: "get"
+        operation: gsp-r
+      - name: "upload"
+        operation: authz:upload
+    database: "catalogDataset"
 
 databases:
   - name: "datasetAuth"
@@ -95,16 +118,33 @@ databases:
   - name: "datasetOntoBase"
     dbtype: TDB2
     location: "/fuseki/databases/ontology"
+  - name: "catalogDataset"
+    dbtype: ABAC
+    dataset: "datasetCatBase"
+    triple-default-labels: "!"
+    labels-store: "/fuseki/databases/catalogLabels.db"
+    attributes-url: "env:USER_ATTRIBUTES_URL"
+    hierarchies-url: "env:ATTRIBUTE_HIERARCHY_URL"
+  - name: "datasetCatBase"
+    dbtype: TDB2
+    location: "/fuseki/databases/catalog"
 
 connectors:
   - fuseki-service: "/knowledge/upload"
     topic: "knowledge"
-    bootstrap-servers: "kafka.kafka.svc.cluster.local:9092"
+    bootstrap-servers: "localhost:9092"
     state-file: "/fuseki/databases/Replay-RDF.state"
     sync-topic: false
+    config-file: "env:KAFKA_CONFIG_FILE_PATH:"
   - fuseki-service: "/ontology/upload"
     topic: "ontology"
-    bootstrap-servers: "kafka.kafka.svc.cluster.local:9092"
+    bootstrap-servers: "localhost:9092"
     state-file: "/fuseki/databases/Replay-RDF.state"
     sync-topic: false
-
+    config-file: "env:KAFKA_CONFIG_FILE_PATH:"
+  - fuseki-service: "/catalog/upload"
+    topic: "catalog"
+    bootstrap-servers: "localhost:9092"
+    state-file: "/fuseki/databases/Replay-RDF.state"
+    sync-topic: false
+    config-file: "env:KAFKA_CONFIG_FILE_PATH:"
