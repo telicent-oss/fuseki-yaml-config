@@ -7,7 +7,7 @@ PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
 
 [ rdf:type         fuseki:Server;
-  ja:context       [ ja:ctxName   "arq:httpServiceAllowed";
-                     ja:ctxValue  "false"
+  ja:context       [ ja:cxtName   "arq:httpServiceAllowed";
+                     ja:cxtValue  "false"
                    ]
 ] .

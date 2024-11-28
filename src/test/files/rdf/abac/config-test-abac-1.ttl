@@ -7,8 +7,8 @@ PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
 
 :dataset-under  rdf:type  ja:MemoryDataset;
-        ja:context  [ ja:ctxName   "arq:queryTimeout";
-                      ja:ctxValue  "100,100"
+        ja:context  [ ja:cxtName   "arq:queryTimeout";
+                      ja:cxtValue  "100,100"
                     ];
         ja:data     "src/main/files/abac/data-and-labels.trig" .
 

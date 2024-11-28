@@ -102,7 +102,7 @@ databases:
     dbtype: ABAC
     dataset: "datasetAuthBase"
     triple-default-labels: "!"
-    labels-store: "/fuseki/databases/ontologyLabels.db"
+    labels-store: "/fuseki/databases/knowledgeLabels.db"
     attributes-url: "env:USER_ATTRIBUTES_URL"
     hierarchies-url: "env:ATTRIBUTE_HIERARCHY_URL"
   - name: "datasetAuthBase"
@@ -112,7 +112,7 @@ databases:
     dbtype: ABAC
     dataset: "datasetOntoBase"
     triple-default-labels: "!"
-    labels-store: "/fuseki/databases/knowledgeLabels.db"
+    labels-store: "/fuseki/databases/ontologyLabels.db"
     attributes-url: "env:USER_ATTRIBUTES_URL"
     hierarchies-url: "env:ATTRIBUTE_HIERARCHY_URL"
   - name: "datasetOntoBase"
@@ -135,16 +135,16 @@ connectors:
     bootstrap-servers: "localhost:9092"
     state-file: "/fuseki/databases/Replay-RDF.state"
     sync-topic: false
-    config-file: "env:KAFKA_CONFIG_FILE_PATH:"
+    config-file: "env:{KAFKA_CONFIG_FILE_PATH:}"
   - fuseki-service: "/ontology/upload"
     topic: "ontology"
     bootstrap-servers: "localhost:9092"
     state-file: "/fuseki/databases/Replay-RDF.state"
     sync-topic: false
-    config-file: "env:KAFKA_CONFIG_FILE_PATH:"
+    config-file: "env:{KAFKA_CONFIG_FILE_PATH:}"
   - fuseki-service: "/catalog/upload"
     topic: "catalog"
     bootstrap-servers: "localhost:9092"
     state-file: "/fuseki/databases/Replay-RDF.state"
     sync-topic: false
-    config-file: "env:KAFKA_CONFIG_FILE_PATH:"
+    config-file: "env:{KAFKA_CONFIG_FILE_PATH:}"

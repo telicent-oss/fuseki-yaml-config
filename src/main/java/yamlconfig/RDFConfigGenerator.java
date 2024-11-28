@@ -46,8 +46,8 @@ public class RDFConfigGenerator {
         if (server.settings() != null && !server.settings().isEmpty()) {
             Resource settingsRes = model.createResource();
             for (Map.Entry<String, String> entry : server.settings().entrySet()) {
-                settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "ctxName"), entry.getKey())
-                        .addProperty(model.createProperty(ConfigConstants.JA_NS + "ctxValue"), String.valueOf(entry.getValue()));
+                settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtName"), entry.getKey())
+                        .addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtValue"), String.valueOf(entry.getValue()));
             }
             serverRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "context"), settingsRes);
         }
@@ -67,8 +67,8 @@ public class RDFConfigGenerator {
                 if (database.settings() != null && !database.settings().isEmpty()) {
                     Resource settingsRes = model.createResource();
                     for (Map.Entry<String, String> entry : database.settings().entrySet()) {
-                        settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "ctxName"), entry.getKey())
-                                .addProperty(model.createProperty(ConfigConstants.JA_NS + "ctxValue"), String.valueOf(entry.getValue()));
+                        settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtName"), entry.getKey())
+                                .addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtValue"), String.valueOf(entry.getValue()));
                     }
                     databaseRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "context"), settingsRes);
                 }
@@ -128,8 +128,8 @@ public class RDFConfigGenerator {
                 if (database.settings() != null && !database.settings().isEmpty()) {
                     Resource settingsRes = model.createResource();
                     for (Map.Entry<String, String> entry : database.settings().entrySet()) {
-                        settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "ctxName"), entry.getKey())
-                                .addProperty(model.createProperty(ConfigConstants.JA_NS + "ctxValue"), String.valueOf(entry.getValue()));
+                        settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtName"), entry.getKey())
+                                .addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtValue"), String.valueOf(entry.getValue()));
                     }
                     databaseRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "context"), settingsRes);
                 }
@@ -157,8 +157,8 @@ public class RDFConfigGenerator {
                     if (endpoint.settings() != null && !endpoint.settings().isEmpty()) {
                         Resource settingsRes = model.createResource();
                         for (Map.Entry<String, String> entry : endpoint.settings().entrySet()) {
-                            settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "ctxName"), entry.getKey())
-                                    .addProperty(model.createProperty(ConfigConstants.JA_NS + "ctxValue"), String.valueOf(entry.getValue()));
+                            settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtName"), entry.getKey())
+                                    .addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtValue"), String.valueOf(entry.getValue()));
                         }
                         endpointRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "context"), settingsRes);
                     }
