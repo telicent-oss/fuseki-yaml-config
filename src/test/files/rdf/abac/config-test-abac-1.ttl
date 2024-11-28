@@ -6,16 +6,16 @@ PREFIX ja:     <http://jena.hpl.hp.com/2005/11/Assembler#>
 PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
 
+[ rdf:type         fuseki:Server;
+  fuseki:name      "Fuseki server simple";
+  fuseki:services  ( :service1 )
+] .
+
 :dataset-under  rdf:type  ja:MemoryDataset;
         ja:context  [ ja:cxtName   "arq:queryTimeout";
                       ja:cxtValue  "100,100"
                     ];
         ja:data     "src/main/files/abac/data-and-labels.trig" .
-
-[ rdf:type         fuseki:Server;
-  fuseki:name      "Fuseki server simple";
-  fuseki:services  ( :service1 )
-] .
 
 :service1  rdf:type      fuseki:Service;
         fuseki:dataset   :abac-mem-db;
