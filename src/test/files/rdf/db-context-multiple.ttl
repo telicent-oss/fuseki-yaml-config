@@ -5,10 +5,10 @@ PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
 
 :tdb2-db rdf:type   tdb2:DatasetTDB2;
-        ja:context     [ ja:ctxName   "tdb2:unionDefaultGraph";
-                                 ja:ctxValue  "true"
+        ja:context     [ ja:cxtName   "tdb2:unionDefaultGraph";
+                                 ja:cxtValue  "true"
                                ] .
 :mem-db rdf:type   ja:MemoryDataset;
-        ja:context   [ ja:ctxName   "tdb2:unionDefaultGraph" , "arq:queryTimeout";
-                               ja:ctxValue  "false" , "2010,2010"
+        ja:context   [ ja:cxtName   "tdb2:unionDefaultGraph" , "arq:queryTimeout";
+                               ja:cxtValue  "false" , "2010,2010"
                              ] .

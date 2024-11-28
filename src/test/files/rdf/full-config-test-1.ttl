@@ -6,8 +6,8 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
 
 :tdb2-db  rdf:type   tdb2:DatasetTDB2;
         tdb2:location  "DB2";
-        ja:context     [ ja:ctxName   "tdb2:unionDefaultGraph";
-                         ja:ctxValue  "true"
+        ja:context     [ ja:cxtName   "tdb2:unionDefaultGraph";
+                         ja:cxtValue  "true"
                        ] .
 
 :service2  rdf:type      fuseki:Service;
@@ -31,8 +31,8 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
                          ];
         fuseki:endpoint  [ fuseki:name       "sparql";
                            fuseki:operation  fuseki:query;
-                           ja:context        [ ja:ctxName   "arq:queryTimeout";
-                                               ja:ctxValue  "1000,10000"
+                           ja:context        [ ja:cxtName   "arq:queryTimeout";
+                                               ja:cxtValue  "1000,10000"
                                              ]
                          ];
         fuseki:endpoint  [ fuseki:operation  fuseki:query ];

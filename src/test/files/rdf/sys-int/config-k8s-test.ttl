@@ -30,8 +30,8 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
                          ];
         fuseki:endpoint  [ fuseki:name       "graphql";
                            fuseki:operation  graphql:graphql;
-                           ja:context        [ ja:ctxName   "ja:cxtValue" , "ja:cxtName";
-                                               ja:ctxValue  "io.telicent.jena.graphql.execution.telicent.graph.TelicentGraphExecutor" , "graphql:executor"
+                           ja:context        [ ja:cxtName   "ja:cxtValue" , "ja:cxtName";
+                                               ja:cxtValue  "io.telicent.jena.graphql.execution.telicent.graph.TelicentGraphExecutor" , "graphql:executor"
                                              ]
                          ];
         fuseki:endpoint  [ fuseki:name       "query";
@@ -42,8 +42,8 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
                          ];
         fuseki:endpoint  [ fuseki:name       "update";
                            fuseki:operation  cqrs:update;
-                           ja:context        [ ja:ctxName   "ja:cxtValue" , "ja:cxtName";
-                                               ja:ctxValue  "ontology" , "kafka:topic"
+                           ja:context        [ ja:cxtName   "ja:cxtValue" , "ja:cxtName";
+                                               ja:cxtValue  "ontology" , "kafka:topic"
                                              ]
                          ];
         fuseki:endpoint  [ fuseki:operation  fuseki:query ];
@@ -92,26 +92,26 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
                          ];
         fuseki:endpoint  [ fuseki:name       "graphql";
                            fuseki:operation  graphql:graphql;
-                           ja:context        [ ja:ctxName   "ja:cxtValue" , "ja:cxtName";
-                                               ja:ctxValue  "io.telicent.jena.graphql.execution.telicent.graph.TelicentGraphExecutor" , "graphql:executor"
+                           ja:context        [ ja:cxtName   "ja:cxtValue" , "ja:cxtName";
+                                               ja:cxtValue  "io.telicent.jena.graphql.execution.telicent.graph.TelicentGraphExecutor" , "graphql:executor"
                                              ]
                          ];
         fuseki:endpoint  [ fuseki:name       "update";
                            fuseki:operation  cqrs:update;
-                           ja:context        [ ja:ctxName   "ja:cxtValue" , "ja:cxtName";
-                                               ja:ctxValue  "knowledge" , "kafka:topic"
+                           ja:context        [ ja:cxtName   "ja:cxtValue" , "ja:cxtName";
+                                               ja:cxtValue  "knowledge" , "kafka:topic"
                                              ]
                          ];
         fuseki:endpoint  [ fuseki:name       "query";
                            fuseki:operation  fuseki:query;
-                           ja:context        [ ja:ctxName   "ja:cxtValue" , "ja:cxtName";
-                                               ja:ctxValue  "120000,120000" , "arq:queryTimeout"
+                           ja:context        [ ja:cxtName   "ja:cxtValue" , "ja:cxtName";
+                                               ja:cxtValue  "120000,120000" , "arq:queryTimeout"
                                              ]
                          ];
         fuseki:endpoint  [ fuseki:name       "sparql";
                            fuseki:operation  fuseki:query;
-                           ja:context        [ ja:ctxName   "ja:cxtValue" , "ja:cxtName";
-                                               ja:ctxValue  "120000,120000" , "arq:queryTimeout"
+                           ja:context        [ ja:cxtName   "ja:cxtValue" , "ja:cxtName";
+                                               ja:cxtValue  "120000,120000" , "arq:queryTimeout"
                                              ]
                          ];
         fuseki:name      "knowledge" .
@@ -146,14 +146,14 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
                          ];
         fuseki:endpoint  [ fuseki:name       "update";
                            fuseki:operation  cqrs:update;
-                           ja:context        [ ja:ctxName   "ja:cxtValue" , "ja:cxtName";
-                                               ja:ctxValue  "catalog" , "kafka:topic"
+                           ja:context        [ ja:cxtName   "ja:cxtValue" , "ja:cxtName";
+                                               ja:cxtValue  "catalog" , "kafka:topic"
                                              ]
                          ];
         fuseki:endpoint  [ fuseki:name       "graphql";
                            fuseki:operation  graphql:graphql;
-                           ja:context        [ ja:ctxName   "ja:cxtValue" , "ja:cxtName";
-                                               ja:ctxValue  "io.telicent.jena.graphql.execution.telicent.graph.TelicentGraphExecutor" , "graphql:executor"
+                           ja:context        [ ja:cxtName   "ja:cxtValue" , "ja:cxtName";
+                                               ja:cxtValue  "io.telicent.jena.graphql.execution.telicent.graph.TelicentGraphExecutor" , "graphql:executor"
                                              ]
                          ];
         fuseki:endpoint  [ fuseki:name       "upload";

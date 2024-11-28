@@ -56,7 +56,7 @@ public class Dev {
         YAMLConfigParser ycp = new YAMLConfigParser();
         RDFConfigGenerator rcg = new RDFConfigGenerator();
         try {
-            ConfigStruct config2 = ycp.runYAMLParser("src/main/files/config-abac-tdb2.yaml");
+            ConfigStruct config2 = ycp.runYAMLParser("src/main/files/k8s-manifests/config.yaml");
             Model model2 = rcg.createRDFModel(config2);
             model2.write(System.out, "TTL");
             try (FileOutputStream out = new FileOutputStream("src/main/files/config.ttl")) {

@@ -7,7 +7,7 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
 :service rdf:type fuseki:Service;
     fuseki:endpoint [];
     fuseki:endpoint  [
-        ja:context   [ ja:ctxName   "arq:queryTimeout";
-                       ja:ctxValue  "1,1"
+        ja:context   [ ja:cxtName   "arq:queryTimeout";
+                       ja:cxtValue  "1,1"
                       ]
         ].
