@@ -186,8 +186,9 @@ public class RDFConfigGenerator {
                         .addProperty(model.createProperty(ConfigConstants.FK_NS + "bootstrapServers"), connector.bootstrapServers())
                         .addProperty(model.createProperty(ConfigConstants.FK_NS + "topic"), connector.topic())
                         .addProperty(model.createProperty(ConfigConstants.FK_NS + "stateFile"), connector.stateFile())
-                        .addProperty(model.createProperty(ConfigConstants.FK_NS + "groupId"), connector.groupId())
                         .addProperty(model.createProperty(ConfigConstants.FK_NS + "replayTopic"), model.createTypedLiteral(Boolean.parseBoolean(connector.replayTopic())));
+                if(!connector.groupId().isEmpty())
+                    connectorRes.addProperty(model.createProperty(ConfigConstants.FK_NS + "groupId"), connector.groupId());
                 if(!connector.configFile().isEmpty())
                         connectorRes.addProperty(model.createProperty(ConfigConstants.FK_NS + "configFile"), connector.configFile());
                 else {
