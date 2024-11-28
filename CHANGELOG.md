@@ -1,4 +1,8 @@
 # Fuseki YAML Config Parser
+
+## 1.0.6
+- Fix ctxName and ctxValue typo to cxt
+
 ## 1.0.5
 - Add missing server context generation
 
