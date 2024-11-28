@@ -1,5 +1,8 @@
 # Fuseki YAML Config Parser
 
+## 1.0.7
+- Don't generate groupId if it's empty
+
 ## 1.0.6
 - Fix ctxName and ctxValue typo to cxt
 
