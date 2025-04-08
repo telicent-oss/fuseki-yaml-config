@@ -8,7 +8,7 @@
     <artifactId>fuseki-yaml-config</artifactId>
     <packaging>jar</packaging>
 
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.0.8-SNAPSHOT</version>
 
     <name>Fuseki YAML Config Parser</name>
     <description>Fuseki YAML config support</description>
@@ -18,7 +18,7 @@
         <connection>scm:git:git:/https://github.com/telicent-oss/fuseki-yaml-config.git</connection>
         <developerConnection>scm:git:git@github.com:telicent-oss/fuseki-yaml-config.git</developerConnection>
         <url>http://https://github.com/telicent-oss/fuseki-yaml-config</url>
-        <tag>1.0.5</tag>
+        <tag>1.0.6</tag>
     </scm>
 
     <licenses>
