@@ -6,12 +6,10 @@ PREFIX ja:     <http://jena.hpl.hp.com/2005/11/Assembler#>
 PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
 
-:connector1  rdf:type         fk:Connector;
-        fk:bootstrapServers   "localhost:9092";
-        fk:fusekiServiceName  "/ds";
-        fk:replayTopic        false;
-        fk:stateFile          "Replay-RDF0.state";
-        fk:topic              "RDF0" .
+[ rdf:type         fuseki:Server;
+  fuseki:name      "Fuseki server simple";
+  fuseki:services  ( :service1 :service2 )
+] .
 
 :dataset2  rdf:type  ja:MemoryDataset .
 
@@ -24,6 +22,15 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
                          ];
         fuseki:endpoint  [ fuseki:operation  fuseki:query ];
         fuseki:name      "ds2" .
+
+:connector1  rdf:type         fk:Connector;
+        fk:bootstrapServers   "localhost:9092";
+        fk:dlqTopic           "RDF0.dlq";
+        fk:fusekiServiceName  "/ds";
+        fk:groupId            "ds1";
+        fk:replayTopic        false;
+        fk:stateFile          "Replay-RDF0.state";
+        fk:topic              "RDF0" .
 
 :dataset  rdf:type  ja:MemoryDataset .
 
@@ -39,13 +46,9 @@ PREFIX tdb2:   <http://jena.apache.org/2016/tdb#>
 
 :connector2  rdf:type         fk:Connector;
         fk:bootstrapServers   "localhost:9092";
+        fk:dlqTopic           "RDF1.dlq";
         fk:fusekiServiceName  "/ds2";
-        fk:groupId            "";
+        fk:groupId            "ds2";
         fk:replayTopic        false;
-        fk:stateFile          "Replay-RDF0.state";
-        fk:topic              "RDF0" .
-
-[ rdf:type         fuseki:Server;
-  fuseki:name      "Fuseki server simple";
-  fuseki:services  ( :service1 :service2 )
-] .
+        fk:stateFile          "Replay-RDF1.state";
+        fk:topic              "RDF1" .

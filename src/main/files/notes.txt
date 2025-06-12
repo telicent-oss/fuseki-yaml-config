@@ -6,7 +6,7 @@ Cover the cases for Smart Cache Graph.
 
 Process
 
-1 :: Parse the YAML to produce a java datastructure (see Sketch.java)
+1 :: Parse the YAML to produce a java data structure (see Sketch.java)
 
 This data structure is designed to have the elements needed for configuring Fuseki.
 
@@ -14,9 +14,9 @@ YAML can parse to files and directly produce the required classes.
 
 See https://www.baeldung.com/java-snake-yaml
 Try section 4.2 using the "!!" declaration in the YAML file but the goal is section 4.4
-(no inline class declartions)
+(no inline class declarations)
 
-Using yamlconfig may not work - too new to Java.
+Using yaml config may not work - too new to Java.
 It might need to be normal Java classes ("POJO" = "Plain Old Java Class") which
 are classes with getters for each field. The class constructor is settings. Add
 "hashCode" and "equals" functions - get the IDE to generate these for you.

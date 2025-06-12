@@ -10,7 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package yamlconfig;
+package io.telicent.jena.fuseki.config.yaml;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +22,7 @@ import org.apache.logging.log4j.core.layout.PatternLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import static yamlconfig.ConfigConstants.log;
+import static io.telicent.jena.fuseki.config.yaml.ConfigConstants.log;
 
 /** Log appender used in the tests to check if the log warnings are correct. */
 public class TestLogAppender extends AbstractAppender {
@@ -30,7 +30,7 @@ public class TestLogAppender extends AbstractAppender {
     private final List<LogEvent> logEvents = new ArrayList<>();
 
     protected TestLogAppender(String name, Filter filter) {
-        super(name, filter, PatternLayout.createDefaultLayout(), true);
+        super(name, filter, PatternLayout.createDefaultLayout(), true, null);
     }
 
     @Override

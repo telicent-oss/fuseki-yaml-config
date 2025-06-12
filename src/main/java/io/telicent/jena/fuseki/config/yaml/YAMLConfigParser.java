@@ -10,9 +10,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package yamlconfig;
+package io.telicent.jena.fuseki.config.yaml;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.eclipse.jetty.util.StringUtil;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.FileInputStream;
@@ -22,7 +25,7 @@ import java.io.UncheckedIOException;
 import java.util.*;
 
 import static java.util.Collections.emptyMap;
-import static yamlconfig.ConfigConstants.*;
+import static io.telicent.jena.fuseki.config.yaml.ConfigConstants.*;
 
 
 /** Contains all the logic necessary to parse Yaml config files to ConfigStruct objects, called by {@link #runYAMLParser(String)} . */
@@ -231,7 +234,8 @@ public class YAMLConfigParser {
                 for (Object connector : connectorsList) {
                     Map<String, Object> connectorMap = castToMapObject("Connector", connector);
                     String fusekiServiceName = findString(connectorMap, fusekiService, "");
-                    String topic = findString(connectorMap, ConfigConstants.topic, "");
+                    List<String> topics = findMaybeList(connectorMap, ConfigConstants.topic, Collections.emptyList());
+                    String dlqTopic = findString(connectorMap, ConfigConstants.dlqTopic, "");
                     String bootstrapServers = findString(connectorMap, ConfigConstants.bootstrapServers, "");
                     String stateFile = findString(connectorMap, ConfigConstants.stateFile, "");
                     String groupId = findString(connectorMap, ConfigConstants.groupId, "");
@@ -241,19 +245,20 @@ public class YAMLConfigParser {
                     String configFile = findString(connectorMap, ConfigConstants.configFile, "");
 
                     // fusekiServiceName - required, topic - required, bootstrapServers - required, stateFile - required
-                    if (fusekiServiceName == null || fusekiServiceName.isEmpty())
+                    if (StringUtils.isBlank(fusekiServiceName))
                         throw new IllegalArgumentException("No destination Fuseki service name.");
-                    if (topic == null || topic.isEmpty())
+                    if (CollectionUtils.isEmpty(topics))
                         throw new IllegalArgumentException("Missing topic on the \"" + fusekiServiceName + "\" service connector.");
-                    if (bootstrapServers == null || bootstrapServers.isEmpty())
+                    if (StringUtils.isBlank(bootstrapServers))
                         throw new IllegalArgumentException("The \"bootstrapSevers\" field is empty on the \"" + fusekiServiceName + "\" service connector.");
-                    if (stateFile == null || stateFile.isEmpty())
+                    if (StringUtils.isBlank(stateFile))
                         throw new IllegalArgumentException("The \"stateFile\" field is empty on the \"" + fusekiServiceName + "\" service connector.");
                     if(!replayTopic.equals("true") && !replayTopic.equals("false"))
                         throw new IllegalArgumentException("The value of \"replayTopic\" on the \"" + fusekiServiceName + "\" service connector is \"" + replayTopic + "\", which is not a boolean.");
                     if(!syncTopic.equals("true") && !syncTopic.equals("false"))
                         throw new IllegalArgumentException("The value of \"syncTopic\" on the \"" + fusekiServiceName + "\" service connector is \"" + syncTopic + "\", which is not a boolean.");
-                    Connector tempConnector = new Connector(fusekiServiceName, topic, bootstrapServers, stateFile, groupId, replayTopic, syncTopic, config, configFile);
+                    Connector tempConnector = new Connector(fusekiServiceName, bootstrapServers, topics, dlqTopic, stateFile, groupId, replayTopic, syncTopic, config, configFile
+                    );
                     connectors.add(tempConnector);
                 }
                 configStruct.setConnectors(connectors);
@@ -276,10 +281,11 @@ public class YAMLConfigParser {
         }
     }
 
-    private ArrayList<Object> castToList(String name, Object object) {
-        ArrayList<Object> list;
+    @SuppressWarnings("unchecked")
+    private List<Object> castToList(String name, Object object) {
+        List<Object> list;
         try {
-            list = (ArrayList<Object>) object;
+            list = (List<Object>) object;
         }
         catch (ClassCastException ex) {
             throw new ClassCastException(name + " cannot be parsed to a List, found " + object.getClass().getCanonicalName());
@@ -287,11 +293,23 @@ public class YAMLConfigParser {
         return list;
     }
 
-
-    private LinkedHashMap<String, String> castToMapString(String name, Object object) {
-        LinkedHashMap<String, String> map;
+    @SuppressWarnings("unchecked")
+    private List<String> castToListString(String name, List<?> list) {
+        List<String> stringList;
         try {
-            map = (LinkedHashMap<String, String>) object;
+            stringList = (List<String>) list;
+        }
+        catch (ClassCastException ex) {
+            throw new ClassCastException(name + " cannot be parsed to a List<String>, found " + list.getClass().getCanonicalName());
+        }
+        return stringList;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, String> castToMapString(String name, Object object) {
+        Map<String, String> map;
+        try {
+            map = (Map<String, String>) object;
         }
         catch (ClassCastException ex) {
             throw new ClassCastException(name + " cannot be parsed to a Map, found " + object.getClass().getCanonicalName());
@@ -299,10 +317,11 @@ public class YAMLConfigParser {
         return map;
     }
 
-    private LinkedHashMap<String, Object> castToMapObject(String name, Object object) {
-        LinkedHashMap<String, Object> map;
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> castToMapObject(String name, Object object) {
+        Map<String, Object> map;
         try {
-            map = (LinkedHashMap<String, Object>) object;
+            map = (Map<String, Object>) object;
         }
         catch (ClassCastException ex) {
             throw new ClassCastException(name + " cannot be parsed to a Map, found " + object.getClass().getCanonicalName());
@@ -314,6 +333,18 @@ public class YAMLConfigParser {
         if (map.containsKey(property)) {
             Object rawValue = map.get(property);
             return rawValue != null ? rawValue.toString() : defaultValue;
+        }
+        return defaultValue;
+    }
+
+    public List<String> findMaybeList(Map<String, Object> map, String property, List<String> defaultValue) {
+        if (map.containsKey(property)) {
+            Object rawValue = map.get(property);
+            if (rawValue instanceof List<?> listValue) {
+                return  castToListString(property, listValue);
+            } else if (rawValue instanceof String stringValue) {
+                return List.of(stringValue);
+            }
         }
         return defaultValue;
     }

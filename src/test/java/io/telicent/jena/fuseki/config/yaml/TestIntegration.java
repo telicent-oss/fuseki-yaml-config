@@ -10,7 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package yamlconfig;
+package io.telicent.jena.fuseki.config.yaml;
 
 import org.apache.jena.atlas.lib.FileOps;
 import org.apache.jena.fuseki.main.FusekiServer;
@@ -27,10 +27,14 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static yamlconfig.ConfigConstants.*;
+import static io.telicent.jena.fuseki.config.yaml.ConfigConstants.*;
 
 /** Tests for servers without ABAC databases. */
 public class TestIntegration {
+    static {
+        JenaSystem.init();
+    }
+
     YAMLConfigParser ycp = new YAMLConfigParser();
     RDFConfigGenerator rcg = new RDFConfigGenerator();
 

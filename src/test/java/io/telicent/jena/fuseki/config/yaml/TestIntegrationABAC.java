@@ -10,7 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package yamlconfig;
+package io.telicent.jena.fuseki.config.yaml;
 
 import io.telicent.jena.abac.core.Attributes;
 import io.telicent.jena.abac.core.AttributesStore;
@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Test;
 import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static yamlconfig.ConfigConstants.*;
+import static io.telicent.jena.fuseki.config.yaml.ConfigConstants.*;
 
 /** Tests for servers with ABAC databases. */
 public class TestIntegrationABAC {

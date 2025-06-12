@@ -10,8 +10,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package yamlconfig;
+package io.telicent.jena.fuseki.config.yaml;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.RDF;
@@ -44,12 +45,7 @@ public class RDFConfigGenerator {
                 .addProperty(RDF.type, ResourceFactory.createResource(ConfigConstants.FUSEKI_NS + "Server"))
                 .addProperty(model.createProperty(ConfigConstants.FUSEKI_NS + "name"), server.name());
         if (server.settings() != null && !server.settings().isEmpty()) {
-            Resource settingsRes = model.createResource();
-            for (Map.Entry<String, String> entry : server.settings().entrySet()) {
-                settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtName"), entry.getKey())
-                        .addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtValue"), String.valueOf(entry.getValue()));
-            }
-            serverRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "context"), settingsRes);
+            createContext(model, server.settings(), serverRes);
         }
 
         int i = 1;
@@ -65,12 +61,7 @@ public class RDFConfigGenerator {
                 databaseRes.addProperty(model.createProperty(ConfigConstants.AUTHZ_NS + "dataset"), underlyingDatabaseRes);
 
                 if (database.settings() != null && !database.settings().isEmpty()) {
-                    Resource settingsRes = model.createResource();
-                    for (Map.Entry<String, String> entry : database.settings().entrySet()) {
-                        settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtName"), entry.getKey())
-                                .addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtValue"), String.valueOf(entry.getValue()));
-                    }
-                    databaseRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "context"), settingsRes);
+                    createContext(model, database.settings(), databaseRes);
                 }
                 if(database.attributes() != null && !database.attributes().isEmpty())
                     databaseRes.addProperty(model.createProperty(ConfigConstants.AUTHZ_NS + "attributes"), model.createResource("file:" + database.attributes()));
@@ -126,12 +117,7 @@ public class RDFConfigGenerator {
                 if (database.location() != null && !database.location().isEmpty())
                     databaseRes.addProperty(model.createProperty(ConfigConstants.TDB2_NS + "location"), database.location());
                 if (database.settings() != null && !database.settings().isEmpty()) {
-                    Resource settingsRes = model.createResource();
-                    for (Map.Entry<String, String> entry : database.settings().entrySet()) {
-                        settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtName"), entry.getKey())
-                                .addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtValue"), String.valueOf(entry.getValue()));
-                    }
-                    databaseRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "context"), settingsRes);
+                    createContext(model, database.settings(), databaseRes);
                 }
             }
             databaseMap.put(database.name(), databaseRes);
@@ -155,12 +141,7 @@ public class RDFConfigGenerator {
                     endpointRes.addProperty(model.createProperty(ConfigConstants.FUSEKI_NS + "operation"),
                             ResourceFactory.createResource(prefixedOrDefault(model, endpoint.operation(), ConfigConstants.FUSEKI_NS)));
                     if (endpoint.settings() != null && !endpoint.settings().isEmpty()) {
-                        Resource settingsRes = model.createResource();
-                        for (Map.Entry<String, String> entry : endpoint.settings().entrySet()) {
-                            settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtName"), entry.getKey())
-                                    .addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtValue"), String.valueOf(entry.getValue()));
-                        }
-                        endpointRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "context"), settingsRes);
+                        createContext(model, endpoint.settings(), endpointRes);
                     }
                     serviceRes.addProperty(model.createProperty(ConfigConstants.FUSEKI_NS + "endpoint"), endpointRes);
                 }
@@ -184,12 +165,17 @@ public class RDFConfigGenerator {
                         .addProperty(RDF.type, ResourceFactory.createResource(ConfigConstants.FK_NS + "Connector"))
                         .addProperty(model.createProperty(ConfigConstants.FK_NS + "fusekiServiceName"), connector.fusekiServiceName())
                         .addProperty(model.createProperty(ConfigConstants.FK_NS + "bootstrapServers"), connector.bootstrapServers())
-                        .addProperty(model.createProperty(ConfigConstants.FK_NS + "topic"), connector.topic())
                         .addProperty(model.createProperty(ConfigConstants.FK_NS + "stateFile"), connector.stateFile())
                         .addProperty(model.createProperty(ConfigConstants.FK_NS + "replayTopic"), model.createTypedLiteral(Boolean.parseBoolean(connector.replayTopic())));
-                if(!connector.groupId().isEmpty())
+                for (String topic : connector.topics()) {
+                    connectorRes.addProperty(model.createProperty(ConfigConstants.FK_NS + "topic"), topic);
+                }
+                if (StringUtils.isNotBlank(connector.dlqTopic())) {
+                    connectorRes.addProperty(model.createProperty(ConfigConstants.FK_NS + "dlqTopic"), connector.dlqTopic());
+                }
+                if(StringUtils.isNotBlank(connector.groupId()))
                     connectorRes.addProperty(model.createProperty(ConfigConstants.FK_NS + "groupId"), connector.groupId());
-                if(!connector.configFile().isEmpty())
+                if(StringUtils.isNotBlank(connector.configFile()))
                         connectorRes.addProperty(model.createProperty(ConfigConstants.FK_NS + "configFile"), connector.configFile());
                 else {
                     Property configProperty = model.createProperty(ConfigConstants.FK_NS + "config");
@@ -204,6 +190,16 @@ public class RDFConfigGenerator {
             }
         }
         return model;
+    }
+
+    private static void createContext(Model model, Map<String, String> settings, Resource resource) {
+        Resource settingsRes = model.createResource();
+        for (Map.Entry<String, String> entry : settings.entrySet()) {
+            settingsRes.addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtName"), entry.getKey())
+                       .addProperty(model.createProperty(ConfigConstants.JA_NS + "cxtValue"),
+                                    String.valueOf(entry.getValue()));
+        }
+        resource.addProperty(model.createProperty(ConfigConstants.JA_NS + "context"), settingsRes);
     }
 
     public String prefixedOrDefault(Model model, String prefixed, String defaultPrefix) {
