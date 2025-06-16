@@ -10,7 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package yamlconfig;
+package io.telicent.jena.fuseki.config.yaml;
 
 import org.apache.jena.fuseki.server.Operation;
 import org.apache.jena.fuseki.server.OperationRegistry;
@@ -19,7 +19,7 @@ import org.apache.jena.irix.IRIx;
 import java.util.*;
 import java.util.regex.Matcher;
 
-import static yamlconfig.ConfigConstants.*;
+import static io.telicent.jena.fuseki.config.yaml.ConfigConstants.*;
 
 
 /** ConfigStruct is the Java data structure the Yaml file gets parsed to by the YAMLConfigParser.

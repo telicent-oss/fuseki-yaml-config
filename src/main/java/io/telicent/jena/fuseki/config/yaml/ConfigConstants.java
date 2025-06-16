@@ -10,7 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package yamlconfig;
+package io.telicent.jena.fuseki.config.yaml;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +73,7 @@ public class ConfigConstants {
     public static final String fusekiService = "fuseki-service";
     public static final String bootstrapServers = "bootstrap-servers";
     public static final String topic = "topic";
+    public static final String dlqTopic = "dlq-topic";
     public static final String stateFile = "state-file";
     public static final String groupId = "group-id";
     public static final String replayTopic = "replay-topic";

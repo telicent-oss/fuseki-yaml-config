@@ -1,0 +1,3 @@
+@prefix ex: <https://example.org/ns#> .
+
+ex:subject ex:predicate # INVALID - Missing Object

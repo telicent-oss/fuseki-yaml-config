@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.telicent.public</groupId>
     <artifactId>fuseki-yaml-config</artifactId>
     <packaging>jar</packaging>
-
-    <version>1.0.8-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
 
     <name>Fuseki YAML Config Parser</name>
     <description>Fuseki YAML config support</description>
@@ -17,8 +15,8 @@
     <scm>
         <connection>scm:git:git:/https://github.com/telicent-oss/fuseki-yaml-config.git</connection>
         <developerConnection>scm:git:git@github.com:telicent-oss/fuseki-yaml-config.git</developerConnection>
-        <url>http://https://github.com/telicent-oss/fuseki-yaml-config</url>
-        <tag>1.0.6</tag>
+        <url>https://github.com/telicent-oss/fuseki-yaml-config</url>
+        <tag>HEAD</tag>
     </scm>
 
     <licenses>
@@ -45,23 +43,23 @@
         <license.header.path>${project.basedir}</license.header.path>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Internal dependencies -->
-        <dependency.fuseki-kafka>1.5.2</dependency.fuseki-kafka>
-        <dependency.jena>5.2.0</dependency.jena>
-        <dependency.rdf-abac>0.73.1</dependency.rdf-abac>
+        <dependency.fuseki-kafka>2.0.0</dependency.fuseki-kafka>
+        <dependency.jena>5.4.0</dependency.jena>
+        <dependency.rdf-abac>1.0.2</dependency.rdf-abac>
         <!-- External dependencies -->
         <dependency.log4j2>2.24.3</dependency.log4j2>
-        <dependency.snake-yaml>2.3</dependency.snake-yaml>
+        <dependency.snake-yaml>2.4</dependency.snake-yaml>
         <!-- Test dependencies -->
-        <dependency.junit5>5.11.4</dependency.junit5>
+        <dependency.junit5>5.13.1</dependency.junit5>
         <dependency.junit5-platform>1.10.1</dependency.junit5-platform>
-        <dependency.smart-caches-core>0.26.2</dependency.smart-caches-core>
-        <dependency.test-containers>1.20.4</dependency.test-containers>
+        <dependency.smart-caches-core>0.29.1</dependency.smart-caches-core>
+        <dependency.test-containers>1.21.1</dependency.test-containers>
         <!-- Plugins -->
         <plugin.compiler>3.13.0</plugin.compiler>
         <plugin.cyclonedx>2.9.1</plugin.cyclonedx>
         <plugin.gpg>3.2.7</plugin.gpg>
         <plugin.javadoc>3.11.2</plugin.javadoc>
-        <plugin.license>4.6</plugin.license>
+        <plugin.license>5.0.0</plugin.license>
         <plugin.sonatype>1.7.0</plugin.sonatype>
         <plugin.source>3.3.1</plugin.source>
     </properties>
@@ -124,6 +122,14 @@
             <groupId>io.telicent.smart-caches</groupId>
             <artifactId>event-source-kafka</artifactId>
             <version>${dependency.smart-caches-core}</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.telicent.jena</groupId>
+            <artifactId>jena-fuseki-kafka-module</artifactId>
+            <version>${dependency.fuseki-kafka}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
@@ -192,6 +198,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/Test*.java</include>
+                    </includes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -280,6 +295,33 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+    <profile>
+        <id>docker</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+            <os>
+                <family>!Windows</family>
+            </os>
+        </activation>
+
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <includes>
+                            <include>**/Test*.java</include>
+                            <include>**/DockerTest*.java</include>
+                        </includes>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+    </profiles>
 
     <distributionManagement>
         <snapshotRepository>

@@ -29,15 +29,15 @@ import org.apache.jena.sparql.exec.RowSetRewindable;
 import org.apache.jena.sparql.exec.http.DSP;
 import org.apache.jena.sparql.exec.http.QueryExecHTTPBuilder;
 import org.apache.jena.sys.JenaSystem;
-import yamlconfig.ConfigStruct;
-import yamlconfig.RDFConfigGenerator;
-import yamlconfig.YAMLConfigParser;
+import io.telicent.jena.fuseki.config.yaml.ConfigStruct;
+import io.telicent.jena.fuseki.config.yaml.RDFConfigGenerator;
+import io.telicent.jena.fuseki.config.yaml.YAMLConfigParser;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static io.telicent.jena.abac.services.LibAuthService.serviceURL;
-import static yamlconfig.ConfigConstants.log;
+import static io.telicent.jena.fuseki.config.yaml.ConfigConstants.log;
 
 public class Dev {
     private static final String DIR = "src/main/files/";

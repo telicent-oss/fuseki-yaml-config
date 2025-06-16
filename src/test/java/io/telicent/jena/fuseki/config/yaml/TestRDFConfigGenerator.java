@@ -10,7 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package yamlconfig;
+package io.telicent.jena.fuseki.config.yaml;
 
 import org.apache.jena.fuseki.system.FusekiLogging;
 import org.apache.jena.rdf.model.*;
@@ -30,8 +30,8 @@ import java.util.regex.Pattern;
 
 import static java.util.Collections.emptyMap;
 import static org.junit.jupiter.api.Assertions.*;
-import static yamlconfig.ConfigConstants.*;
-import static yamlconfig.ConfigConstants.JA_NS;
+import static io.telicent.jena.fuseki.config.yaml.ConfigConstants.*;
+import static io.telicent.jena.fuseki.config.yaml.ConfigConstants.JA_NS;
 
 public class TestRDFConfigGenerator {
     YAMLConfigParser ycp = new YAMLConfigParser();

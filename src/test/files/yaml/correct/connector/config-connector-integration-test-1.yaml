@@ -28,13 +28,17 @@ databases:
 connectors:
   - fuseki-service: "/ds"
     topic: "RDF0"
+    dlq-topic: "RDF0.dlq"
     bootstrap-servers: "localhost:9092"
     state-file: "Replay-RDF0.state"
     sync-topic: true
+    group-id: ds1
   - fuseki-service: "/ds2"
-    topic: "RDF0"
+    topic: "RDF1"
+    dlq-topic: "RDF1.dlq"
     bootstrap-servers: "localhost:9092"
-    state-file: "Replay-RDF0.state"
+    state-file: "Replay-RDF1.state"
     sync-topic: true
+    group-id: ds2
 
 

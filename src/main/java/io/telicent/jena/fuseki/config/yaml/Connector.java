@@ -10,8 +10,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package yamlconfig;
+package io.telicent.jena.fuseki.config.yaml;
 
+import java.util.List;
 import java.util.Map;
 
-record Server(String name, Map<String, String> settings) {}
+//@formatter:off
+public record Connector(String fusekiServiceName,
+                        String bootstrapServers,
+                        List<String> topics,
+                        String dlqTopic,
+                        String stateFile,
+                        String groupId,
+                        String replayTopic,
+                        String syncTopic,
+                        Map<String, String> config,
+                        String configFile) {
+//@formatter:on
+}

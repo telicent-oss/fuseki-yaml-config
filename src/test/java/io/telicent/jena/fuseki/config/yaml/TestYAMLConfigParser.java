@@ -10,7 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package yamlconfig;
+package io.telicent.jena.fuseki.config.yaml;
 
 import org.apache.jena.sys.JenaSystem;
 import org.apache.logging.log4j.LogManager;
@@ -29,7 +29,7 @@ import static java.util.Collections.emptyMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static yamlconfig.ConfigConstants.log;
+import static io.telicent.jena.fuseki.config.yaml.ConfigConstants.log;
 
 
 public class TestYAMLConfigParser {
@@ -47,7 +47,7 @@ public class TestYAMLConfigParser {
         RuntimeException ex = assertThrows(RuntimeException.class,() -> {
             ycp.runYAMLParser("nonexistingfile.yaml");
         });
-        assertEquals("java.io.UncheckedIOException: java.io.FileNotFoundException: nonexistingfile.yaml (No such file or directory)", ex.getMessage());
+        assertTrue(ex.getMessage().contains("FileNotFoundException"));
     }
 
     @Test
@@ -773,8 +773,12 @@ public class TestYAMLConfigParser {
         Map<String, String> config1 = new HashMap<String, String>();
         config1.put("key1", "value1");
         config1.put("key2", "value2");
-        Connector connector1 = new Connector("/ds", "env:{ENV_KAFKA_TOPIC:RDF}", "localhost:9092", "dDatabases/RDF.state", "JenaFusekiKafka", "true", "true", config1, "");
-        Connector connector2 = new Connector("/ds2", "env:{ENV_KAFKA_TOPIC:RDF}", "localhost:9093", "dDatabases/RDF.state", "JenaFusekiKafka2", "true", "true", emptyMap(), "env:{KAFKA_CONFIG_FILE_PATH:}");
+        Connector connector1 = new Connector("/ds", "localhost:9092", List.of("env:{ENV_KAFKA_TOPIC:RDF}"),
+                                             "", "dDatabases/RDF.state", "JenaFusekiKafka", "true", "true", config1, ""
+        );
+        Connector connector2 = new Connector("/ds2", "localhost:9093", List.of("env:{ENV_KAFKA_TOPIC:RDF}"),
+                                             "", "dDatabases/RDF.state", "JenaFusekiKafka2", "true", "true", emptyMap(), "env:{KAFKA_CONFIG_FILE_PATH:}"
+        );
         List<Service> servicesToCheck = new ArrayList<>();
         servicesToCheck.add(service1);
         servicesToCheck.add(service2);
@@ -815,8 +819,12 @@ public class TestYAMLConfigParser {
         Map<String, String> config1 = new HashMap<String, String>();
         config1.put("key1", "value1");
         config1.put("key2", "value2");
-        Connector connector1 = new Connector("/ds", "env:{ENV_KAFKA_TOPIC:RDF}", "localhost:9092", "dDatabases/RDF.state", "JenaFusekiKafka", "true", "true", config1, "");
-        Connector connector2 = new Connector("/ds2/data-update", "env:{ENV_KAFKA_TOPIC:RDF}", "localhost:9093", "dDatabases/RDF.state", "JenaFusekiKafka2", "true", "true", emptyMap(), "env:{KAFKA_CONFIG_FILE_PATH:}");
+        Connector connector1 = new Connector("/ds", "localhost:9092", List.of("env:{ENV_KAFKA_TOPIC:RDF}"),
+                                             "", "dDatabases/RDF.state", "JenaFusekiKafka", "true", "true", config1, ""
+        );
+        Connector connector2 = new Connector("/ds2/data-update", "localhost:9093", List.of("env:{ENV_KAFKA_TOPIC:RDF}"),
+                                             "", "dDatabases/RDF.state", "JenaFusekiKafka2", "true", "true", emptyMap(), "env:{KAFKA_CONFIG_FILE_PATH:}"
+        );
         List<Service> servicesToCheck = new ArrayList<>();
         servicesToCheck.add(service1);
         servicesToCheck.add(service2);

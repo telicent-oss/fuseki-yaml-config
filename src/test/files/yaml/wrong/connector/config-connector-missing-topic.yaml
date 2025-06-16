@@ -31,6 +31,7 @@ connectors:
     bootstrap-servers: "localhost:9092"
     state-file: "dDatabases/RDF.state"
     group-id: "JenaFusekiKafka"
+    # BAD - No topic property defined
     replay-topic: true
     sync-topic: true
     config:
@@ -40,6 +41,7 @@ connectors:
     bootstrap-servers: "localhost:9093"
     state-file: "dDatabases/RDF.state"
     group-id: "JenaFusekiKafka2"
+    # BAD - No topic property defined
     replay-topic: true
     sync-topic: true
 
