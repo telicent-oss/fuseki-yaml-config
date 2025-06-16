@@ -59,7 +59,7 @@ databases:
 #### Jena Fuseki Kafka Connectors
 The parser also supports [Fuseki-Kafka connector](https://github.com/telicent-oss/jena-fuseki-kafka?tab=readme-ov-file) configuration.
 The connectors are defined in an optional `connectors` list. Each has a mandatory destination Fuseki service name(`fuseki-service`) field,
-`topic`, `bootstrap-servers`, and `state-file`, as well as optional Boolean `replay-topic` and `sync-topic` fields, and `group-id`.
+`topic`, `bootstrap-servers`, and `state-file`, as well as optional Boolean `replay-topic` and `sync-topic` fields, plus `dlq-topic` and `group-id` properties.
 ```
 connectors:
   - fuseki-service: "/ds"
@@ -120,4 +120,6 @@ The `YAMLConfigParser` class contains the `run` method which takes the path to t
 all of its fields' values. 
 
 This `ConfigStruct` can then be passed as an argument to `RDFConfigGenerator`'s `createRDFModel` method which will
-return an RDF model of the config file in the [standard Fuseki format](https://jena.apache.org/documentation/fuseki2/fuseki-configuration.html). That model can then be written to a TTL file.
+return an RDF model of the config file in the [standard Fuseki
+format](https://jena.apache.org/documentation/fuseki2/fuseki-configuration.html). That model can then be written to a
+TTL file.

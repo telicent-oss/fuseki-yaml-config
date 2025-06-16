@@ -4,7 +4,8 @@
 
 - **BREAKING** Moved code to package `io.telicent.jena.fuseki.config.yaml`
 - New `dlq-topic` property on `connectors` for configuring DLQ topic for a connector
-- `topic` property on `connectors` may be either a string, or a list, to configure multiple topics for a connector
+- `topic` property on `connectors` may now be either a string, or a list, to allow configure multiple topics for a
+  connector
 - Build and Test Improvements:
     - Upgraded Apache Jena to 5.4.0
     - Upgraded Fuseki Kafka to 2.0.0
