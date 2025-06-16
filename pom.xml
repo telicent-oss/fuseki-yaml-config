@@ -61,7 +61,7 @@
         <plugin.cyclonedx>2.9.1</plugin.cyclonedx>
         <plugin.gpg>3.2.7</plugin.gpg>
         <plugin.javadoc>3.11.2</plugin.javadoc>
-        <plugin.license>4.6</plugin.license>
+        <plugin.license>5.0.0</plugin.license>
         <plugin.sonatype>1.7.0</plugin.sonatype>
         <plugin.source>3.3.1</plugin.source>
     </properties>
