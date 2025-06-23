@@ -42,19 +42,19 @@
         <license.header.path>${project.basedir}</license.header.path>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Internal dependencies -->
-        <dependency.fuseki-kafka>2.0.0</dependency.fuseki-kafka>
+        <dependency.fuseki-kafka>2.0.1</dependency.fuseki-kafka>
         <dependency.jena>5.4.0</dependency.jena>
         <dependency.rdf-abac>1.0.2</dependency.rdf-abac>
         <!-- External dependencies -->
-        <dependency.log4j2>2.24.3</dependency.log4j2>
+        <dependency.log4j2>2.25.0</dependency.log4j2>
         <dependency.snake-yaml>2.4</dependency.snake-yaml>
         <!-- Test dependencies -->
         <dependency.junit5>5.13.1</dependency.junit5>
         <dependency.junit5-platform>1.10.1</dependency.junit5-platform>
         <dependency.smart-caches-core>0.29.1</dependency.smart-caches-core>
-        <dependency.test-containers>1.21.1</dependency.test-containers>
+        <dependency.test-containers>1.21.2</dependency.test-containers>
         <!-- Plugins -->
-        <plugin.compiler>3.13.0</plugin.compiler>
+        <plugin.compiler>3.14.0</plugin.compiler>
         <plugin.cyclonedx>2.9.1</plugin.cyclonedx>
         <plugin.gpg>3.2.7</plugin.gpg>
         <plugin.javadoc>3.11.2</plugin.javadoc>
