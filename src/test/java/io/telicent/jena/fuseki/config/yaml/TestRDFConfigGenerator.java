@@ -12,6 +12,7 @@
  */
 package io.telicent.jena.fuseki.config.yaml;
 
+import org.apache.jena.atlas.lib.FileOps;
 import org.apache.jena.fuseki.system.FusekiLogging;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.riot.Lang;
@@ -39,10 +40,13 @@ public class TestRDFConfigGenerator {
     String baseUri = "http://testing.com/";
 
     static {
-        FusekiLogging.setLogging();}
+        FusekiLogging.setLogging();
+    }
 
     @BeforeAll
     public static void before() {
+        FileOps.ensureDir("target/files");
+        FileOps.ensureDir("target/files/rdf");
         JenaSystem.init();
     }
 
