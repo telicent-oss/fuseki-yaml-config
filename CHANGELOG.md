@@ -2,6 +2,12 @@
 
 ## 2.0.1
 
+- Build and Test Improvements:
+    - Upgraded Apache Jena to 5.5.0
+    - Upgraded Fuseki Kafka to 2.0.2
+    - Upgraded Smart Caches Core to 0.29.2
+    - Upgraded various build and test dependencies to latest available
+
 ## 2.0.0
 
 - **BREAKING** Moved code to package `io.telicent.jena.fuseki.config.yaml`
