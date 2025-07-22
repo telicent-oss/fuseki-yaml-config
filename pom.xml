@@ -5,7 +5,7 @@
     <groupId>io.telicent.public</groupId>
     <artifactId>fuseki-yaml-config</artifactId>
     <packaging>jar</packaging>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.1</version>
 
     <name>Fuseki YAML Config Parser</name>
     <description>Fuseki YAML config support</description>
@@ -15,7 +15,7 @@
         <connection>scm:git:git:/https://github.com/telicent-oss/fuseki-yaml-config.git</connection>
         <developerConnection>scm:git:git@github.com:telicent-oss/fuseki-yaml-config.git</developerConnection>
         <url>https://github.com/telicent-oss/fuseki-yaml-config</url>
-        <tag>HEAD</tag>
+        <tag>2.0.1</tag>
     </scm>
 
     <licenses>
