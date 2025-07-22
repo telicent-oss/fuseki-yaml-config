@@ -1,5 +1,7 @@
 # Fuseki YAML Config Parser
 
+## 2.0.1
+
 ## 2.0.0
 
 - **BREAKING** Moved code to package `io.telicent.jena.fuseki.config.yaml`
