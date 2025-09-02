@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   maven-build:
-    uses: Telicent-oss/shared-workflows/.github/workflows/maven.yml@main
+    uses: Telicent-oss/shared-workflows/.github/workflows/parallel-maven.yml@main
     with:
       # Docker based tests in this repository
       USES_DOCKERHUB_IMAGES: true
@@ -28,5 +28,4 @@ jobs:
       MAIN_BRANCH: main
       JAVA_VERSION: 21
       CHANGELOG_FILE: CHANGELOG.md
-      RUN_WINDOWS_BUILD: false
     secrets: inherit
