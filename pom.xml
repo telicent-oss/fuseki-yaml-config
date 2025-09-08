@@ -51,7 +51,7 @@
         <!-- Test dependencies -->
         <dependency.junit5>5.13.4</dependency.junit5>
         <dependency.junit5-platform>1.10.1</dependency.junit5-platform>
-        <dependency.smart-caches-core>0.29.4</dependency.smart-caches-core>
+        <dependency.smart-caches-core>0.29.5</dependency.smart-caches-core>
         <dependency.test-containers>1.21.3</dependency.test-containers>
         <!-- Plugins -->
         <plugin.central>0.8.0</plugin.central>
