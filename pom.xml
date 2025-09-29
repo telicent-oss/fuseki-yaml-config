@@ -42,26 +42,26 @@
         <license.header.path>${project.basedir}</license.header.path>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Internal dependencies -->
-        <dependency.fuseki-kafka>2.0.2</dependency.fuseki-kafka>
+        <dependency.fuseki-kafka>2.1.0</dependency.fuseki-kafka>
         <dependency.jena>5.5.0</dependency.jena>
         <dependency.rdf-abac>1.0.2</dependency.rdf-abac>
         <!-- External dependencies -->
-        <dependency.log4j2>2.25.1</dependency.log4j2>
+        <dependency.log4j2>2.25.2</dependency.log4j2>
         <dependency.snake-yaml>2.5</dependency.snake-yaml>
         <!-- Test dependencies -->
         <dependency.junit5>5.13.4</dependency.junit5>
         <dependency.junit5-platform>1.10.1</dependency.junit5-platform>
-        <dependency.smart-caches-core>0.29.4</dependency.smart-caches-core>
+        <dependency.smart-caches-core>0.29.6</dependency.smart-caches-core>
         <dependency.test-containers>1.21.3</dependency.test-containers>
         <!-- Plugins -->
-        <plugin.central>0.8.0</plugin.central>
-        <plugin.compiler>3.14.0</plugin.compiler>
+        <plugin.central>0.9.0</plugin.central>
+        <plugin.compiler>3.14.1</plugin.compiler>
         <plugin.cyclonedx>2.9.1</plugin.cyclonedx>
         <plugin.gpg>3.2.8</plugin.gpg>
-        <plugin.javadoc>3.11.3</plugin.javadoc>
+        <plugin.javadoc>3.12.0</plugin.javadoc>
         <plugin.license>5.0.0</plugin.license>
         <plugin.source>3.3.1</plugin.source>
-        <plugin.surefire>3.5.3</plugin.surefire>
+        <plugin.surefire>3.5.4</plugin.surefire>
     </properties>
 
     <dependencies>
