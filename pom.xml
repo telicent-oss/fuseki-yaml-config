@@ -49,9 +49,9 @@
         <dependency.log4j2>2.25.3</dependency.log4j2>
         <dependency.snake-yaml>2.5</dependency.snake-yaml>
         <!-- Test dependencies -->
-        <dependency.junit5>6.0.2</dependency.junit5>
+        <dependency.junit5>6.0.3</dependency.junit5>
         <dependency.junit5-platform>1.10.1</dependency.junit5-platform>
-        <dependency.smart-caches-core>0.34.0</dependency.smart-caches-core>
+        <dependency.smart-caches-core>0.35.0</dependency.smart-caches-core>
         <dependency.test-containers>1.21.4</dependency.test-containers>
         <!-- Plugins -->
         <plugin.central>0.10.0</plugin.central>
