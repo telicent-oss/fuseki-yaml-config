@@ -33,7 +33,7 @@ import org.apache.jena.sparql.core.DatasetGraphFactory;
 import org.apache.jena.sparql.exec.*;
 import org.apache.jena.sparql.exec.http.DSP;
 import org.apache.jena.sparql.exec.http.QueryExecHTTPBuilder;
-import org.apache.jena.sparql.resultset.ResultSetCompare;
+import org.apache.jena.sparql.resultset.RDFOutput;
 import org.apache.jena.sys.JenaSystem;
 import org.apache.jena.tdb2.TDB2Factory;
 import org.junit.jupiter.api.AfterEach;
@@ -101,7 +101,7 @@ public class TestIntegrationABAC {
         actualResponseRSR = query(server, "u1"); // 3
         server.stop();
 
-        boolean equals = ResultSetCompare.isomorphic(expectedRSR, actualResponseRSR);
+        boolean equals = isomorphic(expectedRSR, actualResponseRSR);
         assertTrue(equals);
     }
 
@@ -122,7 +122,7 @@ public class TestIntegrationABAC {
         actualResponseRSR = query(server, "u1"); // 3
         server.stop();
 
-        boolean equals = ResultSetCompare.isomorphic(expectedRSR, actualResponseRSR);
+        boolean equals = isomorphic(expectedRSR, actualResponseRSR);
         assertTrue(equals);
     }
 
@@ -147,7 +147,7 @@ public class TestIntegrationABAC {
         actualResponseRSR = query(server, "u1"); // 3
         server.stop();
 
-        boolean equals = ResultSetCompare.isomorphic(expectedRSR, actualResponseRSR);
+        boolean equals = isomorphic(expectedRSR, actualResponseRSR);
         assertTrue(equals);
     }
 
@@ -171,7 +171,7 @@ public class TestIntegrationABAC {
         load(server);
         actualResponseRSR = query(server, "u1"); // 3
 
-        boolean equals = ResultSetCompare.isomorphic(expectedRSR, actualResponseRSR);
+        boolean equals = isomorphic(expectedRSR, actualResponseRSR);
         assertTrue(equals);
         expectedRSR.rewindable().reset();
         actualResponseRSR.reset();
@@ -182,7 +182,7 @@ public class TestIntegrationABAC {
         RowSetRewindable modifiedResponseRSR = query(server, "u1");
         server.stop();
 
-        boolean stillEquals = ResultSetCompare.isomorphic(modifiedResponseRSR, actualResponseRSR);
+        boolean stillEquals = isomorphic(modifiedResponseRSR, actualResponseRSR);
         assertFalse(stillEquals);
     }
 
@@ -206,7 +206,7 @@ public class TestIntegrationABAC {
         load(server);
         actualResponseRSR = query(server, "u1"); // 3
 
-        boolean equals = ResultSetCompare.isomorphic(expectedRSR, actualResponseRSR);
+        boolean equals = isomorphic(expectedRSR, actualResponseRSR);
         assertTrue(equals);
         expectedRSR.rewindable().reset();
         actualResponseRSR.reset();
@@ -217,7 +217,7 @@ public class TestIntegrationABAC {
         RowSetRewindable modifiedResponseRSR = query(server, "u1");
         server.stop();
 
-        boolean stillEquals = ResultSetCompare.isomorphic(modifiedResponseRSR, actualResponseRSR);
+        boolean stillEquals = isomorphic(modifiedResponseRSR, actualResponseRSR);
         assertTrue(stillEquals);
     }
 
@@ -242,7 +242,7 @@ public class TestIntegrationABAC {
         actualResponseRSR = query(server, "u1"); // 3
         server.stop();
 
-        boolean equals = ResultSetCompare.isomorphic(expectedRSR, actualResponseRSR);
+        boolean equals = isomorphic(expectedRSR, actualResponseRSR);
         assertTrue(equals);
     }
 
@@ -267,7 +267,7 @@ public class TestIntegrationABAC {
         actualResponseRSR = query(server, "u1"); // 3
         server.stop();
 
-        boolean equals = ResultSetCompare.isomorphic(expectedRSR, actualResponseRSR);
+        boolean equals = isomorphic(expectedRSR, actualResponseRSR);
         assertTrue(equals);
     }
 
@@ -306,7 +306,7 @@ public class TestIntegrationABAC {
         actualResponseRSR = query(server, "u1"); // 3
         server.stop();
 
-        boolean equals = ResultSetCompare.isomorphic(expectedRSR, actualResponseRSR);
+        boolean equals = isomorphic(expectedRSR, actualResponseRSR);
         assertTrue(equals);
     }
 
@@ -352,7 +352,7 @@ public class TestIntegrationABAC {
         QueryExec qExec = QueryExec.dataset(DatasetGraphFactory.create(comparisonModel.getGraph())).query(query).build();
         RowSetRewindable expectedRSRtdl = qExec.select().rewindable();
 
-        boolean equals = ResultSetCompare.isomorphic(expectedRSRtdl, actualResponseRSR);
+        boolean equals = isomorphic(expectedRSRtdl, actualResponseRSR);
         assertTrue(equals);
     }
 
@@ -398,5 +398,11 @@ public class TestIntegrationABAC {
                 .fusekiModules(mods)
                 .parseConfigFile(config)
                 .build();
+    }
+
+    public static boolean isomorphic(RowSet rs1, RowSet rs2) {
+        Model m1 = RDFOutput.encodeAsModel(ResultSet.adapt(rs1));
+        Model m2 = RDFOutput.encodeAsModel(ResultSet.adapt(rs2));
+        return m1.isIsomorphicWith(m2);
     }
 }
