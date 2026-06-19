@@ -1,5 +1,17 @@
 # Fuseki YAML Config Parser
 
+## 2.0.2
+
+- Updated RDF ABAC to 3.1.2 which now only supports one label per triple as opposed to multiple labels previously. Test
+  data has been updated accordingly with multiple labels now merged using `&&`.
+- Build and Test Improvements:
+    - Upgraded Apache Jena to 6.1.0
+    - Upgraded Fuseki Kafka to 3.0.4
+    - Upgraded Smart Caches Core to 0.40.2
+    - Upgraded JUnit 5 to 6.0.2
+    - Upgraded various build and test dependencies to latest available
+    - Migrated to Parallel Maven build
+
 ## 2.0.1
 
 - Build and Test Improvements:
@@ -25,25 +37,33 @@
     - Refactored Kafka test containers tests to use KafkaTestCluster from Smart Caches Core
 
 ## 1.0.7
+
 - Don't generate groupId if it's empty
 
 ## 1.0.6
+
 - Fix ctxName and ctxValue typo to cxt
 
 ## 1.0.5
+
 - Add missing server context generation
 
 ## 1.0.4
+
 - Change the unregistered operation error to a warning
 
 ## 1.0.3
+
 - Update connector-service mismatch checks
 
 ## 1.0.2
+
 - Add fk:configFile field to connectors
 
 ## 1.0.1
+
 - Minor improvements to build
 
 ## 1.0.0
+
 - First release
