@@ -56,7 +56,7 @@
         <!-- CVE-2026-49268 - Apache Shiro is a transitive dependency of Apache Jena -->
         <dependency.shiro>2.2.1</dependency.shiro>
         <!-- Plugins -->
-        <plugin.central>0.10.0</plugin.central>
+        <plugin.central>0.11.0</plugin.central>
         <plugin.compiler>3.15.0</plugin.compiler>
         <plugin.cyclonedx>2.9.1</plugin.cyclonedx>
         <plugin.gpg>3.2.8</plugin.gpg>
@@ -250,8 +250,9 @@
                 <configuration>
                     <publishingServerId>central</publishingServerId>
                     <autoPublish>true</autoPublish>
-                    <waitUntil>published</waitUntil>
-                    <waitTime>3600</waitTime>
+                    <waitUntil>validated</waitUntil>
+                    <waitMaxTime>3600</waitMaxTime>
+                    <deploymentName>Fuseki YAML Config ${project.version}</deploymentName>
                 </configuration>
             </plugin>
             <plugin>
